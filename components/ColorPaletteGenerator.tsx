@@ -15,6 +15,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from './ui/card';
+import { Copy, Check } from 'lucide-react';
 
 const MAX_PROMPT_LENGTH = 200;
 
@@ -27,6 +28,39 @@ const formSchema = z.object({
       message: `Prompt cannot exceed ${MAX_PROMPT_LENGTH} characters.`,
     }),
 });
+
+const ColorCard = ({ color }: { color: string }) => {
+  const [copied, setCopied] = useState(false);
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(color);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
+
+  return (
+    <Card className="group relative cursor-pointer" onClick={copyToClipboard}>
+      <CardContent className="p-2">
+        <div
+          className="w-full aspect-square rounded"
+          style={{ backgroundColor: color }}
+        />
+        <div className="flex items-center space-x-2 mt-2">
+          {copied ? (
+            <Check className="h-4 w-4 stroke-green-500" />
+          ) : (
+            <Copy className="h-4 w-4 stroke-muted-foreground hover:stroke-black" />
+          )}
+          <p className="text-center text-sm">{color}</p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
 
 const ColorPaletteGenerator = () => {
   const [palette, setPalette] = useState<string[]>([]);
@@ -101,18 +135,18 @@ const ColorPaletteGenerator = () => {
       </Form>
 
       {palette.length > 0 && (
-        <div className="grid grid-cols-5 gap-2">
-          {palette.map((color, index) => (
-            <Card key={index}>
-              <CardContent>
-                <div
-                  className="w-full h-20 rounded"
-                  style={{ backgroundColor: color }}
-                />
-                <p className="text-center mt-2">{color}</p>
-              </CardContent>
-            </Card>
-          ))}
+        <div className="pt-10 space-y-x">
+          <h2 className="text-2xl font-bold mb-2 text-center">
+            ✨Your Expertly Mixed Color Palette✨
+          </h2>
+          <p className="text-sm text-muted-foreground text-center mb-4">
+            Click the color to copy
+          </p>
+          <div className="grid grid-cols-5 gap-2">
+            {palette.map((color, index) => (
+              <ColorCard key={index} color={color} />
+            ))}
+          </div>
         </div>
       )}
     </div>
