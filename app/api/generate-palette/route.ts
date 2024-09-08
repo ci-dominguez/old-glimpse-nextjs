@@ -10,18 +10,23 @@ const openai = new OpenAI({
 //Define input schema
 const promptSchema = z.object({
   prompt: z.string().min(1).max(200),
+  mode: z.enum(['light', 'dark']),
 });
 
 //Define output schema
 const colorSchema = z
   .string()
-  .regex(/^#[0-9A-Fa-f]{6}$/, 'Invalid color format');
+  .regex(/^okHsl\(\d{1,3}\s\d{1,3}%\s\d{1,3}%\)$/, 'Invalid color format');
 const responseSchema = z.object({
-  colors: z.array(colorSchema).length(5),
+  colors: z.array(colorSchema).length(6),
 });
 
-const SYSTEM_PROMPT =
-  'You are an expert in branding and graphic design with deep knowledge of color theory. Generate a perfect color palette based on the given description. Use your expertise to create a harmonious set of colors. Respond ONLY with 5 hex color codes, separated by commas, without any additional text or explanation.';
+//Define system prompts for light and dark mode palettes
+const LIGHT_MODE_SYSTEM_PROMPT =
+  'You are an expert in color theory and design systems. Generate a harmonious color palette for light mode interfaces based on the given description. Consider accessibility, color harmony principles (complementary, analogous, or triadic), and perceptual uniformity. Respond ONLY with 5 OKHsl main color values and 1 light background color, separated by commas, in the format: okHsl(H S% L%). For the main colors: Use hue values between 0-360, saturation between 50-80%, lightness between 40-60%. For the background color: Use a neutral tone with saturation below 10%, lightness between 85-95% for a light background. Ensure sufficient contrast between colors for accessibility, especially between the main colors and the light background. Use a wide gamut to allow for vibrant and muted colors while maintaining readability on the light background.';
+
+const DARK_MODE_SYSTEM_PROMPT =
+  'You are an expert in color theory and design systems. Generate a harmonious color palette for dark mode interfaces based on the given description. Consider accessibility, color harmony principles (complementary, analogous, or triadic), and perceptual uniformity. Respond ONLY with 5 OKHsl main color values and 1 dark background color, separated by commas, in the format: okHsl(H S% L%). For the main colors: Use hue values between 0-360, saturation between 50-80%, lightness between 60-80% for better visibility on dark backgrounds. For the background color: Use a neutral tone with saturation below 10%, lightness between 5-15% for a dark background. Ensure sufficient contrast between colors for accessibility, especially between the main colors and the dark background. Use a wide gamut to allow for vibrant and muted colors while maintaining readability and reducing eye strain in dark interfaces.';
 
 export async function POST(req: Request) {
   try {
@@ -46,18 +51,23 @@ export async function POST(req: Request) {
       );
     }
 
-    const { prompt } = parseResult.data;
+    const { prompt, mode } = parseResult.data;
+
+    //Select prompt based on the mode
+    const systemPrompt =
+      mode === 'light' ? LIGHT_MODE_SYSTEM_PROMPT : DARK_MODE_SYSTEM_PROMPT;
 
     //Call OpenAI API
-    console.log('Calling OpenAI API with prompt:', prompt);
+    console.log('Calling OpenAI API with prompt:', prompt, 'and mode:', mode);
+
     const completion = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4o-mini',
       messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'system', content: systemPrompt },
         { role: 'user', content: prompt },
       ],
-      max_tokens: 30,
-      temperature: 0.7,
+      max_tokens: 100,
+      temperature: 0.8,
     });
 
     const aiResp = completion.choices[0].message.content;
@@ -73,6 +83,8 @@ export async function POST(req: Request) {
         {
           message:
             'Invalid response from AI: Incorrect number or format of colors',
+          details: colors,
+          error: validationResult.error.format(),
         },
         { status: 500 }
       );
