@@ -1,4 +1,5 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
+import { getAuth } from '@clerk/nextjs/server';
 import OpenAI from 'openai';
 import { z } from 'zod';
 
@@ -28,7 +29,18 @@ const LIGHT_MODE_SYSTEM_PROMPT =
 const DARK_MODE_SYSTEM_PROMPT =
   'You are an expert in color theory and design systems. Generate a harmonious color palette for dark mode interfaces based on the given description. Consider accessibility, color harmony principles (complementary, analogous, or triadic), and perceptual uniformity. Respond ONLY with 5 OKHsl main color values and 1 dark background color, separated by commas, in the format: okHsl(H S% L%). For the main colors: Use hue values between 0-360, saturation between 50-80%, lightness between 60-80% for better visibility on dark backgrounds. For the background color: Use a neutral tone with saturation below 10%, lightness between 5-15% for a dark background. Ensure sufficient contrast between colors for accessibility, especially between the main colors and the dark background. Use a wide gamut to allow for vibrant and muted colors while maintaining readability and reducing eye strain in dark interfaces.';
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
+  const { userId } = getAuth(req);
+
+  //Check if user is authenticated
+  if (!userId) {
+    console.error('User is not authenticated');
+    return NextResponse.json(
+      { message: 'User is not authenticated' },
+      { status: 401 }
+    );
+  }
+
   try {
     //Validate API key
     if (!process.env.NEXT_PUBLIC_OPENAI_API_KEY) {
