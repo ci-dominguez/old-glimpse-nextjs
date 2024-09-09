@@ -1,4 +1,3 @@
-// import {Auth} from '@clerk/nextjs'
 import ColorPaletteGenerator from '@/components/ColorPaletteGenerator';
 
 const ColorPaletteGeneratorPage = () => {
