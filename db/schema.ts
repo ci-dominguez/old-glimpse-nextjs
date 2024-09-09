@@ -1,12 +1,13 @@
 import {
   pgTable,
-  serial,
+  uuid,
   text,
   integer,
   timestamp,
   boolean,
   pgEnum,
   decimal,
+  serial,
 } from 'drizzle-orm/pg-core';
 
 export const subscriptionTierEnum = pgEnum('subscription_tier_type', [
@@ -16,7 +17,7 @@ export const subscriptionTierEnum = pgEnum('subscription_tier_type', [
 ]);
 
 export const users = pgTable('users', {
-  id: serial('id').primaryKey(),
+  id: uuid('id').defaultRandom().primaryKey(),
   clerkId: text('clerk_id').notNull().unique(),
   stripeCustomerId: text('stripe_customer_id').unique(),
   name: text('name').notNull(),
@@ -48,8 +49,8 @@ export const subscriptionTiers = pgTable('subscription_tiers', {
 });
 
 export const userSubscriptions = pgTable('user_subscriptions', {
-  id: serial('id').primaryKey(),
-  userId: integer('user_id')
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id')
     .notNull()
     .references(() => users.id),
   subscriptionTierId: integer('subscription_tier_id')
@@ -63,8 +64,8 @@ export const userSubscriptions = pgTable('user_subscriptions', {
 });
 
 export const colorPalettes = pgTable('color_palettes', {
-  id: serial('id').primaryKey(),
-  userId: integer('user_id')
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id')
     .notNull()
     .references(() => users.id),
   name: text('name').notNull(),

@@ -1,5 +1,5 @@
 {
-  "id": "b5963b27-f619-4180-8d4a-70bafde0ff5f",
+  "id": "158691a7-3d64-471a-bde9-ae568f859990",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -10,13 +10,14 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "user_id": {
           "name": "user_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
@@ -101,7 +102,7 @@
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": true,
-          "default": "'FREE'"
+          "default": "'Basic'"
         },
         "monthly_generation_limit": {
           "name": "monthly_generation_limit",
@@ -141,13 +142,14 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "user_id": {
           "name": "user_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
@@ -229,9 +231,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "clerk_id": {
           "name": "clerk_id",
@@ -360,9 +363,9 @@
       "name": "subscription_tier_type",
       "schema": "public",
       "values": [
-        "FREE",
-        "PREMIUM_1",
-        "PREMIUM_2"
+        "Basic",
+        "Pro",
+        "Max"
       ]
     }
   },

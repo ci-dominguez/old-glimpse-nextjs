@@ -1,12 +1,12 @@
 DO $$ BEGIN
- CREATE TYPE "public"."subscription_tier_type" AS ENUM('FREE', 'PREMIUM_1', 'PREMIUM_2');
+ CREATE TYPE "public"."subscription_tier_type" AS ENUM('Basic', 'Pro', 'Max');
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "color_palettes" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"user_id" integer NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"user_id" uuid NOT NULL,
 	"name" text NOT NULL,
 	"description" text,
 	"base_colors" text[] NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS "color_palettes" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "subscription_tiers" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"name" "subscription_tier_type" DEFAULT 'FREE' NOT NULL,
+	"name" "subscription_tier_type" DEFAULT 'Basic' NOT NULL,
 	"monthly_generation_limit" integer NOT NULL,
 	"max_stored_palettes" integer NOT NULL,
 	"price" numeric(10, 2) NOT NULL,
@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS "subscription_tiers" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "user_subscriptions" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"user_id" integer NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"user_id" uuid NOT NULL,
 	"subscription_tier_id" integer NOT NULL,
 	"start_date" timestamp with time zone NOT NULL,
 	"end_date" timestamp with time zone,
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS "user_subscriptions" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "users" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"clerk_id" text NOT NULL,
 	"stripe_customer_id" text,
 	"name" text NOT NULL,
