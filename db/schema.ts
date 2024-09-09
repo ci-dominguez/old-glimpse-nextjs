@@ -56,7 +56,9 @@ export const userSubscriptions = pgTable('user_subscriptions', {
   subscriptionTierId: integer('subscription_tier_id')
     .notNull()
     .references(() => subscriptionTiers.id),
-  startDate: timestamp('start_date', { withTimezone: true }).notNull(),
+  startDate: timestamp('start_date', { withTimezone: true })
+    .defaultNow()
+    .notNull(),
   endDate: timestamp('end_date', { withTimezone: true }),
   isActive: boolean('is_active').notNull().default(true),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),

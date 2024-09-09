@@ -8,6 +8,13 @@
       "when": 1725907615618,
       "tag": "0000_grey_professor_monster",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1725909107049,
+      "tag": "0001_calm_living_mummy",
+      "breakpoints": true
     }
   ]
 }
