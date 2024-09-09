@@ -10,12 +10,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { SignedIn } from '@clerk/nextjs';
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <main className='flex flex-col items-center justify-center min-h-screen'>
+      <SignedIn>you are signed in</SignedIn>
       <h1 className='text-3xl font-bold text-center'>Glimpse ✨</h1>
 
       <p className='text-sm text-muted-foreground text-center mb-4'>
@@ -23,8 +25,10 @@ export default function Home() {
         system
       </p>
       <div className='flex space-x-4'>
-        <Button type='button'>
-          <Link href='/sign-up'>Get Started</Link>
+        <Button type='button' className='p-0'>
+          <Link href='/sign-up' className='px-4 py-2'>
+            Get Started
+          </Link>
         </Button>
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger asChild>
