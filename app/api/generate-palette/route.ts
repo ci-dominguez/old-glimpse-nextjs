@@ -2,6 +2,9 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { getAuth } from '@clerk/nextjs/server';
 import OpenAI from 'openai';
 import { z } from 'zod';
+import { db } from '@/db/db';
+import { users, colorPalettes, subscriptionTiers } from '@/db/schema';
+import { eq, sql } from 'drizzle-orm';
 
 //Initialize OpenAI client
 const openai = new OpenAI({
@@ -28,6 +31,41 @@ const LIGHT_MODE_SYSTEM_PROMPT =
 
 const DARK_MODE_SYSTEM_PROMPT =
   'You are an expert in color theory and design systems. Generate a harmonious color palette for dark mode interfaces based on the given description. Consider accessibility, color harmony principles (complementary, analogous, or triadic), and perceptual uniformity. Respond ONLY with 5 OKHsl main color values and 1 dark background color, separated by commas, in the format: okHsl(H S% L%). For the main colors: Use hue values between 0-360, saturation between 50-80%, lightness between 60-80% for better visibility on dark backgrounds. For the background color: Use a neutral tone with saturation below 10%, lightness between 5-15% for a dark background. Ensure sufficient contrast between colors for accessibility, especially between the main colors and the dark background. Use a wide gamut to allow for vibrant and muted colors while maintaining readability and reducing eye strain in dark interfaces.';
+
+//Check if user has any palette generations and storage left
+async function checkUserLimits(userId: string) {
+  const [user] = await db
+    .select({
+      currentMonthGenerations: users.currentMonthGenerations,
+      totalStoredPalettes: users.totalStoredPalettes,
+      subscriptionTierId: users.currentSubscriptionTierId,
+    })
+    .from(users)
+    .where(eq(users.id, userId));
+
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  const [subscription] = await db
+    .select({
+      monthlyGenerationLimit: subscriptionTiers.monthlyGenerationLimit,
+      maxStoredPalettes: subscriptionTiers.maxStoredPalettes,
+    })
+    .from(subscriptionTiers)
+    .where(eq(subscriptionTiers.id, user.subscriptionTierId));
+
+  if (!subscription) {
+    throw new Error('Subscription not found');
+  }
+
+  //Return true/false based on user limits and current count
+  return {
+    canGenerate:
+      user.currentMonthGenerations < subscription.monthlyGenerationLimit,
+    canStore: user.totalStoredPalettes < subscription.maxStoredPalettes,
+  };
+}
 
 export async function POST(req: NextRequest) {
   const { userId } = getAuth(req);
@@ -69,6 +107,16 @@ export async function POST(req: NextRequest) {
     const systemPrompt =
       mode === 'light' ? LIGHT_MODE_SYSTEM_PROMPT : DARK_MODE_SYSTEM_PROMPT;
 
+    const { canGenerate, canStore } = await checkUserLimits(userId);
+
+    //Check if user can generate a new palette based on subscription limits
+    if (!canGenerate) {
+      return NextResponse.json(
+        { error: 'Monthly generation limit reached' },
+        { status: 403 }
+      );
+    }
+
     //Call OpenAI API
     console.log('Calling OpenAI API with prompt:', prompt, 'and mode:', mode);
 
@@ -82,28 +130,63 @@ export async function POST(req: NextRequest) {
       temperature: 0.8,
     });
 
+    //Parse and validate AI response
     const aiResp = completion.choices[0].message.content;
+    const colors = aiResp?.split(',').map((color) => color.trim()) || [];
+    const { colors: validatedColors } = responseSchema.parse({ colors });
+
+    const baseColors = validatedColors.slice(0, 5) as [
+      string,
+      string,
+      string,
+      string,
+      string
+    ];
+    const backgroundColor = validatedColors[5];
+
+    let paletteId: string | undefined;
+
     console.log('OpenAI API response:', aiResp);
 
-    //Parse and validate AI response
-    const colors = aiResp?.split(',').map((color) => color.trim()) || [];
-    const validationResult = responseSchema.safeParse({ colors });
+    if (canStore) {
+      const [newPalette] = await db
+        .insert(colorPalettes)
+        .values({
+          userId,
+          name: `My ${
+            mode.charAt(0).toUpperCase() + mode.slice(1)
+          } Mode Palette ✨`,
+          description: prompt,
+          mode,
+          baseColors,
+          backgroundColor,
+        })
+        .returning({ id: colorPalettes.id });
 
-    if (!validationResult.success) {
-      console.error('Invalid response from AI:', colors);
-      return NextResponse.json(
-        {
-          message:
-            'Invalid response from AI: Incorrect number or format of colors',
-          details: colors,
-          error: validationResult.error.format(),
-        },
-        { status: 500 }
-      );
+      paletteId = newPalette.id;
+
+      await db
+        .update(users)
+        .set({
+          currentMonthGenerations: sql`${users.currentMonthGenerations} + 1`,
+          totalStoredPalettes: sql`${users.totalStoredPalettes} + 1`,
+        })
+        .where(eq(users.id, userId));
+    } else {
+      await db
+        .update(users)
+        .set({
+          currentMonthGenerations: sql`${users.currentMonthGenerations} + 1`,
+        })
+        .where(eq(users.id, userId));
     }
 
-    // Return validated colors
-    return NextResponse.json({ colors: validationResult.data.colors });
+    return NextResponse.json({
+      paletteId,
+      baseColors,
+      backgroundColor,
+      canStore,
+    });
   } catch (error) {
     console.error('Error in API route:', error);
     return NextResponse.json(
