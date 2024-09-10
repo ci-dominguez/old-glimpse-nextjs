@@ -93,14 +93,3 @@ export const colorPalettes = pgTable(
     };
   }
 );
-
-export const temporaryPalettes = pgTable('temporary_palettes', {
-  id: uuid('id').defaultRandom().primaryKey(),
-  baseColors: text('base_colors')
-    .array()
-    .notNull()
-    .$type<[string, string, string, string, string]>(),
-  backgroundColor: text('background_color').notNull(),
-  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
-  expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
-});

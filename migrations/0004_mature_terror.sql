@@ -1,0 +1,1 @@
+DROP TABLE "temporary_palettes";
