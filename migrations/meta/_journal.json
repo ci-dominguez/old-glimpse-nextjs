@@ -15,6 +15,13 @@
       "when": 1725909107049,
       "tag": "0001_calm_living_mummy",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1725926810998,
+      "tag": "0002_bouncy_the_santerians",
+      "breakpoints": true
     }
   ]
 }

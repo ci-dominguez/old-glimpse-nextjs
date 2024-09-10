@@ -8,6 +8,7 @@ import {
   pgEnum,
   decimal,
   serial,
+  index,
 } from 'drizzle-orm/pg-core';
 
 export const subscriptionTierEnum = pgEnum('subscription_tier_type', [
@@ -15,6 +16,8 @@ export const subscriptionTierEnum = pgEnum('subscription_tier_type', [
   'Pro',
   'Max',
 ]);
+
+export const paletteMode = pgEnum('palette_mode', ['light', 'dark']);
 
 export const users = pgTable('users', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -65,16 +68,28 @@ export const userSubscriptions = pgTable('user_subscriptions', {
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
 });
 
-export const colorPalettes = pgTable('color_palettes', {
-  id: uuid('id').defaultRandom().primaryKey(),
-  userId: uuid('user_id')
-    .notNull()
-    .references(() => users.id),
-  name: text('name').notNull(),
-  description: text('description'),
-  baseColors: text('base_colors').array().notNull(),
-  backgroundColor: text('background_color').notNull(),
-  isFavorite: boolean('is_favorite').notNull().default(false),
-  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
-});
+export const colorPalettes = pgTable(
+  'color_palettes',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id),
+    name: text('name').notNull(),
+    description: text('description'),
+    mode: paletteMode('mode').notNull(),
+    baseColors: text('base_colors')
+      .array()
+      .notNull()
+      .$type<[string, string, string, string, string]>(),
+    backgroundColor: text('background_color').notNull(),
+    isFavorite: boolean('is_favorite').notNull().default(false),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
+  },
+  (table) => {
+    return {
+      userIdIdx: index('user_id_idx').on(table.userId),
+    };
+  }
+);
