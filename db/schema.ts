@@ -84,6 +84,7 @@ export const colorPalettes = pgTable(
       .$type<[string, string, string, string, string]>(),
     backgroundColor: text('background_color').notNull(),
     isFavorite: boolean('is_favorite').notNull().default(false),
+    isPrivate: boolean('is_private').notNull().default(false),
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
   },
