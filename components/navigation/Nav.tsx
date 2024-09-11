@@ -5,12 +5,13 @@ import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import { links } from '@/utils/links';
 import { Button } from '../ui/button';
+import Logo from '@/components/logo';
 
 const Nav = () => {
   const { extended, setExtended } = useNav();
   const path = usePathname();
   return (
-    <nav className='fixed top-8 left-8 right-8 py-3 px-5 space-y-8 rounded-xl bg-white'>
+    <nav className='fixed top-6 inset-x-6 py-3 px-4 space-y-8 rounded-xl bg-white'>
       <div
         className={`flex justify-between items-center ${
           extended && 'pb-3 border-b-[1px] border-muted-background'
@@ -18,13 +19,13 @@ const Nav = () => {
       >
         <Link
           href='/'
-          className='flex items-center space-x-1 font-bold text-lg '
+          className='flex items-center space-x-2 font-bold text-lg '
         >
-          <span className='text-3xl'>✨</span>
+          <Logo className='size-8 fill-black' />
           <span>Glimpse</span>
         </Link>
         <button onClick={() => setExtended(!extended)}>
-          {extended ? <X className='size-7' /> : <Menu className='size-7' />}
+          {extended ? <X className='size-6' /> : <Menu className='size-6' />}
         </button>
       </div>
       {extended && (
