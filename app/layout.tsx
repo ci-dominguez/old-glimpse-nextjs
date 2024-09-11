@@ -2,6 +2,8 @@ import { ClerkProvider } from '@clerk/nextjs';
 import type { Metadata } from 'next';
 import { Arimo } from 'next/font/google';
 import './globals.css';
+import Nav from '@/components/navigation/Nav';
+import { NavProvider } from '@/contexts/NavContext';
 
 const arimo = Arimo({
   weight: ['400', '500', '600', '700'],
@@ -25,7 +27,12 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang='en'>
-        <body className={arimo.className}>{children}</body>
+        <body className={arimo.className}>
+          <NavProvider>
+            <Nav />
+            {children}
+          </NavProvider>
+        </body>
       </html>
     </ClerkProvider>
   );
