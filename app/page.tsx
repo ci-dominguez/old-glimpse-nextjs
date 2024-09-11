@@ -1,3 +1,5 @@
+'use client';
+import { useNav } from '@/contexts/NavContext';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
@@ -45,6 +47,7 @@ const categories = [
 ];
 
 export default function Home() {
+  const { setExtended } = useNav();
   return (
     <main className='flex flex-col min-h-screen'>
       <section className='flex flex-col m-2 px-6 pt-40 pb-12 space-y-24 rounded-xl bg-sky-blue-to-soft-peach text-center'>
@@ -56,7 +59,13 @@ export default function Home() {
             to professional and community-driven asset libraries.
           </p>
           <Button className='p-0 text-md self-start mx-auto'>
-            <Link href='/sign-up' className='px-4 py-2 w-full'>
+            <Link
+              onClick={() => {
+                setExtended(false);
+              }}
+              href='/sign-up'
+              className='px-4 py-2 w-full'
+            >
               Start designing for free
             </Link>
           </Button>
@@ -105,6 +114,9 @@ export default function Home() {
                         <h4 className='text-lg font-medium flex space-x-2 items-center pb-1'>
                           <Blob className=' h-3 fill-black' />
                           <Link
+                            onClick={() => {
+                              setExtended(false);
+                            }}
                             href={tool.link}
                             className='underline underline-offset-2'
                           >
@@ -116,7 +128,13 @@ export default function Home() {
                     );
                   })}
                   <Button className='p-0 text-md w-full'>
-                    <Link href='/features' className='py-2 w-full'>
+                    <Link
+                      onClick={() => {
+                        setExtended(false);
+                      }}
+                      href='/features'
+                      className='py-2 w-full'
+                    >
                       Learn more
                     </Link>
                   </Button>
@@ -135,12 +153,24 @@ export default function Home() {
           from you.
         </p>
         <Button className='p-0 text-md' variant='secondary'>
-          <Link href='/suggest' className='px-4 py-2 w-full'>
+          <Link
+            onClick={() => {
+              setExtended(false);
+            }}
+            href='/suggest'
+            className='px-4 py-2 w-full'
+          >
             Suggest something
           </Link>
         </Button>
         <Button className='p-0 text-md' variant='secondary'>
-          <Link href='/report' className='px-4 py-2 w-full'>
+          <Link
+            onClick={() => {
+              setExtended(false);
+            }}
+            href='/report'
+            className='px-4 py-2 w-full'
+          >
             Report our flaws
           </Link>
         </Button>
@@ -179,12 +209,24 @@ export default function Home() {
           stunning, accessible designs faster than ever.
         </p>
         <Button className='p-0 text-md' variant='secondary'>
-          <Link href='/pricing' className='px-4 py-2 w-full'>
+          <Link
+            onClick={() => {
+              setExtended(false);
+            }}
+            href='/pricing'
+            className='px-4 py-2 w-full'
+          >
             View pricing
           </Link>
         </Button>
         <Button className='p-0 text-md'>
-          <Link href='/sign-up' className='px-4 py-2 w-full'>
+          <Link
+            onClick={() => {
+              setExtended(false);
+            }}
+            href='/sign-up'
+            className='px-4 py-2 w-full'
+          >
             Get started for free
           </Link>
         </Button>
