@@ -3,7 +3,13 @@ import type { Metadata } from 'next';
 import { Arimo } from 'next/font/google';
 import './globals.css';
 
-const arimo = Arimo({ subsets: ['latin'], display: 'swap' });
+const arimo = Arimo({
+  weight: ['400', '500', '600', '700'],
+  subsets: ['latin', 'latin-ext'],
+  display: 'swap',
+  fallback: ['arial'],
+  preload: true,
+});
 
 export const metadata: Metadata = {
   title: 'Glimpse - Design System Tools',
