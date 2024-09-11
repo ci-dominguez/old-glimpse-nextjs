@@ -14,9 +14,8 @@ import { SignedIn } from '@clerk/nextjs';
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <main className='flex flex-col items-center justify-center min-h-screen'>
+    <main className='flex flex-col items-center justify-center min-h-screen m-4 rounded-xl bg-sky-blue-to-soft-peach'>
       <SignedIn>you are signed in</SignedIn>
       <h1 className='text-3xl font-bold text-center'>Glimpse ✨</h1>
 
