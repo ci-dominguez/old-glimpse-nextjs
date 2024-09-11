@@ -1,14 +1,14 @@
-import { ClerkProvider } from "@clerk/nextjs";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import { ClerkProvider } from '@clerk/nextjs';
+import type { Metadata } from 'next';
+import { Arimo } from 'next/font/google';
+import './globals.css';
 
-const inter = Inter({ subsets: ["latin"] });
+const arimo = Arimo({ subsets: ['latin'], display: 'swap' });
 
 export const metadata: Metadata = {
-  title: "Glimpse - Design System Tools",
+  title: 'Glimpse - Design System Tools',
   description:
-    "Leverage our intuitive ai and innovative tool-set to assist you in creating stunning design systems for brands and applications.",
+    'Leverage our intuitive ai and innovative tool-set to assist you in creating stunning design systems for brands and applications.',
 };
 
 export default function RootLayout({
@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang='en'>
-        <body className={inter.className}>{children}</body>
+        <body className={arimo.className}>{children}</body>
       </html>
     </ClerkProvider>
   );
