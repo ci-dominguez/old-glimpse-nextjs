@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -13,10 +14,8 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from './ui/card';
-import { Copy, Check } from 'lucide-react';
-import { oklab, converter, formatHex, Okhsl } from 'culori';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const MAX_PROMPT_LENGTH = 200;
 
@@ -30,81 +29,10 @@ const formSchema = z.object({
   mode: z.enum(['light', 'dark']),
 });
 
-function parseOkhsl(okhslString: string): Okhsl {
-  const match = okhslString.match(/okHsl\((\d+)\s+(\d+)%\s+(\d+)%\)/);
-  if (!match) {
-    throw new Error('Invalid okhsl format');
-  }
-  const [, h, s, l] = match;
-  return {
-    mode: 'okhsl',
-    h: Number(h),
-    s: Number(s) / 100,
-    l: Number(l) / 100,
-  };
-}
-
-function convertOKHslToHex(okhslString: string): string {
-  const okhslColor = parseOkhsl(okhslString);
-  console.log('OKHsl color:', okhslColor);
-
-  //OKHsl -> OKLab
-  const oklabColor = oklab(okhslColor);
-  console.log('OKLab color:', oklabColor);
-
-  //OkLab -> Linear RGB
-  let toRgb = converter('rgb');
-  const linearRgbColor = toRgb(oklabColor);
-  console.log('Linear RGB color:', linearRgbColor);
-
-  //Linear RGB -> sRGB (handled internally by formatHex)
-  //sRGB -> Hex
-  const hexColor = formatHex(linearRgbColor);
-  console.log('Hex color:', hexColor);
-
-  return hexColor!;
-}
-
-const ColorCard = ({ color }: { color: string }) => {
-  const [copied, setCopied] = useState(false);
-  const hexColor = convertOKHslToHex(color);
-
-  console.log('OKHsl color:', color);
-  console.log('Converted hex color:', hexColor);
-
-  const copyToClipboard = async () => {
-    try {
-      await navigator.clipboard.writeText(hexColor);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error('Failed to copy text: ', err);
-    }
-  };
-
-  return (
-    <Card className='group relative cursor-pointer' onClick={copyToClipboard}>
-      <CardContent className='p-2'>
-        <div
-          className='w-full aspect-square rounded'
-          style={{ backgroundColor: hexColor }}
-        />
-        <div className='flex items-center space-x-2 mt-2'>
-          {copied ? (
-            <Check className='h-4 w-4 stroke-green-500' />
-          ) : (
-            <Copy className='h-4 w-4 stroke-muted-foreground hover:stroke-black' />
-          )}
-          <p className='text-center text-sm'>{hexColor}</p>
-        </div>
-      </CardContent>
-    </Card>
-  );
-};
-
 const ColorPaletteGenerator = () => {
-  const [palette, setPalette] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -116,38 +44,37 @@ const ColorPaletteGenerator = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setLoading(true);
+    setError(null);
+
     try {
       const resp = await fetch('/api/generate-palette', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: values.prompt, mode: values.mode }),
+        body: JSON.stringify(values),
       });
+
+      if (!resp.ok) {
+        const errData = await resp.json();
+        throw new Error(errData.error || 'Failed to generate palette');
+      }
 
       const data = await resp.json();
 
-      if (!resp.ok) {
-        throw new Error(data.message || `Server error: ${resp.status}`);
+      if (data.paletteId) {
+        router.push(`/palette/${data.paletteId}`);
       }
-
-      setPalette(data.colors);
-
-      console.log('Received palette:', data.colors);
     } catch (error) {
       console.error('Error generating palette:', error);
-      form.setError('prompt', {
-        type: 'manual',
-        message:
-          error instanceof Error
-            ? error.message
-            : 'Failed to generate palette. Please try again.',
-      });
+      setError(
+        error instanceof Error ? error.message : 'An unexpected error occurred.'
+      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className='space-y-4 w-1/2'>
+    <div className='space-y-4 w-full max-w-md'>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -157,11 +84,11 @@ const ColorPaletteGenerator = () => {
             control={form.control}
             name='prompt'
             render={({ field }) => (
-              <FormItem>
+              <FormItem className='w-full'>
                 <FormLabel>Description Of Your Idea</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder='My company Acme provide elegant solutions ...'
+                    placeholder='My company Acme provides elegant solutions ...'
                     {...field}
                   />
                 </FormControl>
@@ -206,20 +133,10 @@ const ColorPaletteGenerator = () => {
         </form>
       </Form>
 
-      {palette.length > 0 && (
-        <div className='pt-10 space-y-x'>
-          <h2 className='text-2xl font-bold mb-2 text-center'>
-            ✨Your Expertly Mixed Color Palette✨
-          </h2>
-          <p className='text-sm text-muted-foreground text-center mb-4'>
-            Click the color to copy
-          </p>
-          <div className='grid grid-cols-3 gap-2'>
-            {palette.map((color, index) => (
-              <ColorCard key={index} color={color} />
-            ))}
-          </div>
-        </div>
+      {error && (
+        <Alert variant='destructive'>
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
       )}
     </div>
   );
