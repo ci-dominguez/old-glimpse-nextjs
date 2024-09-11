@@ -73,26 +73,22 @@ const config = {
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
       backgroundImage: {
-        'cotton-candy-to-peach':
-          'linear-gradient(to right bottom, rgb(251, 215, 255) 10%, rgb(255, 222, 193) 80%)',
         'soft-peach-to-pale-lemon':
-          'linear-gradient(to right bottom, rgb(255, 236, 219) 10%, rgb(255, 249, 196) 80%)',
+          'linear-gradient(to right bottom, rgb(255, 213, 179) 10%, rgb(255, 245, 157) 80%)',
         'light-apricot-to-cream':
-          'linear-gradient(to right bottom, rgb(251, 239, 210) 10%, rgb(255, 243, 224) 80%)',
+          'linear-gradient(to right bottom, rgb(255, 223, 166) 10%, rgb(255, 236, 204) 80%)',
         'lavender-mist-to-blush':
-          'linear-gradient(to right bottom, rgb(234, 224, 255) 10%, rgb(255, 227, 236) 80%)',
+          'linear-gradient(to right bottom, rgb(214, 194, 255) 10%, rgb(255, 194, 214) 80%)',
         'cotton-candy-to-pale-lemon':
-          'linear-gradient(to right bottom, rgb(251, 215, 255) 10%, rgb(255, 249, 196) 80%)',
+          'linear-gradient(to right bottom, rgb(255, 182, 255) 10%, rgb(255, 245, 157) 80%)',
         'sky-blue-to-light-apricot':
-          'linear-gradient(to right bottom, rgb(224, 248, 255) 10%, rgb(251, 239, 210) 80%)',
-        'lavender-mist-to-mint':
-          'linear-gradient(to right bottom, rgb(234, 224, 255) 10%, rgb(236, 255, 207) 80%)',
+          'linear-gradient(to right bottom, rgb(179, 236, 255) 10%, rgb(255, 223, 166) 80%)',
         'cotton-candy-to-sky-blue':
-          'linear-gradient(to right bottom, rgb(251, 215, 255) 10%, rgb(224, 248, 255) 80%)',
+          'linear-gradient(to right bottom, rgb(255, 182, 255) 10%, rgb(179, 236, 255) 80%)',
         'mint-to-light-apricot':
-          'linear-gradient(to right bottom, rgb(236, 255, 207) 10%, rgb(251, 239, 210) 80%)',
+          'linear-gradient(to right bottom, rgb(213, 255, 159) 10%, rgb(255, 223, 166) 80%)',
         'sky-blue-to-soft-peach':
-          'linear-gradient(to right bottom, rgb(224, 248, 255) 10%, rgb(255, 236, 219) 80%)',
+          'linear-gradient(to right bottom, rgb(179, 236, 255) 10%, rgb(255, 213, 179) 80%)',
       },
     },
   },
