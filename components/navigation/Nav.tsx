@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import { links } from '@/utils/links';
 import { Button } from '../ui/button';
-import Logo from '@/components/logo';
+import Logo from '@/components/icons/logo';
 
 const Nav = () => {
   const { extended, setExtended } = useNav();
