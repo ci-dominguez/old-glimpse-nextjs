@@ -174,7 +174,16 @@ export async function POST(req: NextRequest) {
             totalStoredColorSystems: sql`${users.totalStoredColorSystems} + 1`,
           })
           .where(eq(users.id, dbUserId));
+
+        //If can store and generate return color system
+        return NextResponse.json({ colorSystemId, colors: validatedColors });
       }
+
+      //If user limits are reached return error
+      return NextResponse.json(
+        { error: 'Unable to generate or store color system' },
+        { status: 403 }
+      );
     } catch (error) {
       console.error('Error in API route:', error);
       return NextResponse.json(
