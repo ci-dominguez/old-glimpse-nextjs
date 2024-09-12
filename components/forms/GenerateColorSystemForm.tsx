@@ -12,7 +12,7 @@ import {
   FormItem,
   FormLabel,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { Textarea } from '../ui/textarea';
 import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -77,27 +77,34 @@ const GenerateColorSystemForm = () => {
   };
 
   return (
-    <div className='space-y-4 w-full max-w-md'>
+    <section className='flex flex-col m-2 px-6 py-12 space-y-6 rounded-xl bg-off'>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='space-y-6 flex flex-col items-center text-center'
+          className='space-y-6 flex flex-col'
         >
           <FormField
             control={form.control}
             name='prompt'
             render={({ field }) => (
               <FormItem className='w-full'>
-                <FormLabel>Description Of Your Idea</FormLabel>
+                <FormLabel>
+                  <h2 className='text-2xl font-bold'>
+                    Let&apos;s bring your idea to life 💡
+                  </h2>
+                </FormLabel>
+                <FormDescription>
+                  <h3 className='text-lg font-medium text-on'>
+                    Describe the mood, industry, or purpose of your idea.
+                  </h3>
+                </FormDescription>
                 <FormControl>
-                  <Input
-                    placeholder='My company Acme provides elegant solutions ...'
+                  <Textarea
+                    className='font-normal text-md focus:outline-none active:outline-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0'
+                    placeholder='My app Acme is an intuitive tool that provides users...'
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>
-                  Describe the mood, industry, or purpose of your idea.
-                </FormDescription>
               </FormItem>
             )}
           />
@@ -106,7 +113,11 @@ const GenerateColorSystemForm = () => {
             name='mode'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Color Mode</FormLabel>
+                <FormLabel>
+                  <h3 className='text-lg font-medium text-on'>
+                    Choose a color theme
+                  </h3>
+                </FormLabel>
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
@@ -117,13 +128,13 @@ const GenerateColorSystemForm = () => {
                       <FormControl>
                         <RadioGroupItem value='light' />
                       </FormControl>
-                      <FormLabel className='font-normal'>Light</FormLabel>
+                      <FormLabel className='font-normal'>Light Mode</FormLabel>
                     </FormItem>
                     <FormItem className='flex items-center space-x-2'>
                       <FormControl>
                         <RadioGroupItem value='dark' />
                       </FormControl>
-                      <FormLabel className='font-normal'>Dark</FormLabel>
+                      <FormLabel className='font-normal'>Dark Mode</FormLabel>
                     </FormItem>
                   </RadioGroup>
                 </FormControl>
@@ -141,7 +152,7 @@ const GenerateColorSystemForm = () => {
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
-    </div>
+    </section>
   );
 };
 
