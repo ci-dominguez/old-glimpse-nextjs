@@ -24,7 +24,7 @@ const PaletteDisplay = ({ paletteId }: PaletteDisplayProps) => {
   useEffect(() => {
     async function fetchPalette() {
       try {
-        const response = await fetch(`/api/palette/${paletteId}`, {
+        const response = await fetch(`/api/color-systems/${paletteId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
