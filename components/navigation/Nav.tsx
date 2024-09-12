@@ -1,20 +1,69 @@
 'use client';
+import { useEffect, useState } from 'react';
 import { useNav } from '@/contexts/NavContext';
 import { usePathname } from 'next/navigation';
+import { useScrollDirection } from '@/hooks/useScrollDirection';
+import {
+  motion,
+  useScroll,
+  useMotionValueEvent,
+  useAnimation,
+} from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronRight, Menu, X } from 'lucide-react';
 import { resourceLinks as links, toolLinks } from '@/utils/links';
 import { Button } from '../ui/button';
 import Logo from '@/components/icons/logo';
-import { SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs';
+import { SignedIn, SignedOut, useUser } from '@clerk/nextjs';
 
 const Nav = () => {
   const { user } = useUser();
   const { extended, setExtended } = useNav();
   const path = usePathname();
+  const { scrollDirection, currentScrollY } = useScrollDirection();
+  const [isVisible, setIsVisible] = useState(true);
+  const [isHomeHovered, setIsHomeHovered] = useState(false);
+  const controls = useAnimation();
+
+  useEffect(() => {
+    if (extended) {
+      setIsVisible(true);
+    } else if (scrollDirection === 'down' && currentScrollY > 150) {
+      setIsVisible(false);
+    } else {
+      setIsVisible(true);
+    }
+  }, [scrollDirection, currentScrollY, extended]);
+
+  const handleHoverStart = () => {
+    setIsHomeHovered(true);
+    controls.start({
+      rotate: [0, 360],
+      transition: {
+        duration: 2,
+        times: [0, 0.4, 0.7, 1],
+        ease: [0.4, 0, 0.2, 1],
+      },
+    });
+  };
+
+  const handleHoverEnd = () => {
+    setIsHomeHovered(false);
+    controls.start({
+      rotate: 360,
+      transition: {
+        duration: 1,
+        ease: 'easeOut',
+      },
+    });
+  };
+
   return (
-    <nav
+    <motion.nav
+      initial={{ y: 0 }}
+      animate={{ y: isVisible ? 0 : '-200%' }}
+      transition={{ duration: 0.3, delay: 0.25 }}
       className={`fixed py-3 px-4 rounded-xl bg-white border-[1px] border-muted-background flex flex-col ${
         extended ? 'inset-6' : 'top-6 inset-x-6'
       }`}
@@ -24,16 +73,18 @@ const Nav = () => {
           extended && 'pb-3 border-b-[1px] border-muted-background'
         }`}
       >
-        <Link
-          onClick={() => {
-            setExtended(false);
-          }}
-          href='/'
-          className='flex items-center space-x-2 font-bold text-lg '
-        >
-          <Logo className='size-8 fill-black' />
-          <span>Glimpse</span>
-        </Link>
+        <motion.div onHoverStart={handleHoverStart} onHoverEnd={handleHoverEnd}>
+          <Link
+            href='/'
+            onClick={() => setExtended(false)}
+            className='flex items-center space-x-2 font-bold text-lg'
+          >
+            <motion.span animate={controls}>
+              <Logo className='size-8 fill-black' />
+            </motion.span>
+            <span>Glimpse</span>
+          </Link>
+        </motion.div>
         <button onClick={() => setExtended(!extended)}>
           {extended ? <X className='size-6' /> : <Menu className='size-6' />}
         </button>
@@ -149,7 +200,7 @@ const Nav = () => {
           </SignedIn>
         </div>
       )}
-    </nav>
+    </motion.nav>
   );
 };
 
