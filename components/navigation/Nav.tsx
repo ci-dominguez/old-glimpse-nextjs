@@ -18,6 +18,9 @@ const Nav = () => {
         }`}
       >
         <Link
+          onClick={() => {
+            setExtended(false);
+          }}
           href='/'
           className='flex items-center space-x-2 font-bold text-lg '
         >
@@ -33,20 +36,45 @@ const Nav = () => {
           <ul className='flex flex-col items-center space-y-4 font-semibold'>
             {links.map((link) => {
               return (
-                <li key={link.name}>
-                  <Link href={link.href}>{link.name}</Link>
+                <li key={link.name} className='w-full'>
+                  <Button
+                    variant={path === link.href ? 'outline' : 'ghost'}
+                    className='p-0 text-md w-full'
+                  >
+                    <Link
+                      onClick={() => {
+                        setExtended(false);
+                      }}
+                      href={link.href}
+                      className='px-4 py-2 w-full'
+                    >
+                      {link.name}
+                    </Link>
+                  </Button>
                 </li>
               );
             })}
           </ul>
           <div className='flex flex-col space-y-4 pb-3'>
             <Button variant='secondary' className='p-0 text-md'>
-              <Link href='/sign-in' className='px-4 py-2 w-full'>
+              <Link
+                onClick={() => {
+                  setExtended(false);
+                }}
+                href='/sign-in'
+                className='px-4 py-2 w-full'
+              >
                 Login
               </Link>
             </Button>
             <Button className='p-0 text-md'>
-              <Link href='/sign-up' className='px-4 py-2 w-full'>
+              <Link
+                onClick={() => {
+                  setExtended(false);
+                }}
+                href='/sign-up'
+                className='px-4 py-2 w-full'
+              >
                 Join
               </Link>
             </Button>
