@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { getAuth } from '@clerk/nextjs/server';
 import { db } from '@/db/db';
-import { users, colorPalettes } from '@/db/schema';
+import { users, colorSystems } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 
 export async function GET(
@@ -9,30 +9,36 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   const { userId: clerkUserId } = getAuth(req);
-  const { id: paletteId } = params;
+
+  const { id: colorSystemId } = params;
 
   try {
-    //Fetch palette data
-    const [palette] = await db
+    //Fetch color system data
+    const [colorSystem] = await db
       .select()
-      .from(colorPalettes)
-      .where(eq(colorPalettes.id, paletteId));
+      .from(colorSystems)
+      .where(eq(colorSystems.id, colorSystemId));
 
-    if (!palette) {
-      return NextResponse.json({ error: 'Palette not found' }, { status: 404 });
+    if (!colorSystem) {
+      return NextResponse.json(
+        { error: 'Color system not found' },
+        { status: 404 }
+      );
     }
 
-    //Return palette immediately if it's public (regardless of authentication)
-    if (!palette.isPrivate) {
-      return NextResponse.json(palette);
+    //Return color system immediately if it's public (regardless of authentication)
+    if (!colorSystem.isPrivate) {
+      return NextResponse.json(colorSystem);
     }
 
-    //Checks for private palettes
+    //Checks for private color systems
 
     //Is user authenticated
     if (!clerkUserId) {
       return NextResponse.json(
-        { error: 'Authentication is required to view this private palette' },
+        {
+          error: 'Authentication is required to view this private color system',
+        },
         { status: 401 }
       );
     }
@@ -51,18 +57,18 @@ export async function GET(
       );
     }
 
-    //Is user the owner of the palette
-    if (user.id !== palette.userId) {
+    //Is user the owner of the color system
+    if (user.id !== colorSystem.userId) {
       return NextResponse.json(
-        { error: 'You do not have permission to view this private palette' },
+        { error: 'You do not have permission to view this color system' },
         { status: 403 }
       );
     }
 
-    //Return the palette after all checks pass
-    return NextResponse.json(palette);
+    //Return the color system after all checks pass
+    return NextResponse.json(colorSystem);
   } catch (error) {
-    console.error('Error processing palette request:', error);
+    console.error('Error processing color system request:', error);
     return NextResponse.json(
       { error: 'An error occurred while processing your request' },
       { status: 500 }
