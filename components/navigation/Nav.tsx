@@ -125,25 +125,27 @@ const Nav = () => {
             </Button>
           </SignedOut>
           <SignedIn>
-            <Link
-              onClick={() => {
-                setExtended(false);
-              }}
-              href='profile'
-              className='flex justify-between items-center'
-            >
-              <div className='flex items-center space-x-2'>
-                <Image
-                  src={user!.imageUrl}
-                  alt={`${user!.firstName}'s profile`}
-                  width='35'
-                  height='35'
-                  className='rounded-full'
-                />
-                <span className='text-md font-medium'>{user?.firstName}</span>
-              </div>
-              <ChevronRight className='size-5' />
-            </Link>
+            {user && (
+              <Link
+                onClick={() => {
+                  setExtended(false);
+                }}
+                href='profile'
+                className='flex justify-between items-center'
+              >
+                <div className='flex items-center space-x-2'>
+                  <Image
+                    src={user!.imageUrl}
+                    alt={`${user!.firstName}'s profile`}
+                    width='35'
+                    height='35'
+                    className='rounded-full'
+                  />
+                  <span className='text-md font-medium'>{user?.firstName}</span>
+                </div>
+                <ChevronRight className='size-5' />
+              </Link>
+            )}
           </SignedIn>
         </div>
       )}
