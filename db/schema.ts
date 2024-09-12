@@ -88,11 +88,11 @@ export const colorSystems = pgTable(
     name: text('name').notNull(),
     description: text('description'),
     mode: colorSystemMode('mode').notNull(),
-    baseColors: text('base_colors')
+    baseColors: uuid('base_colors')
       .array()
       .notNull()
       .$type<[string, string, string, string, string]>(),
-    backgroundColor: text('background_color').notNull(),
+    backgroundColor: uuid('background_color').notNull(),
     isFavorite: boolean('is_favorite').notNull().default(false),
     isPrivate: boolean('is_private').notNull().default(false),
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
@@ -101,6 +101,33 @@ export const colorSystems = pgTable(
   (table) => {
     return {
       userIdIdx: index('user_id_idx').on(table.userId),
+    };
+  }
+);
+
+export const colors = pgTable(
+  'colors',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    name: text('name'),
+    okhsl: text('okhsl').notNull().unique(),
+    hex: text('hex').notNull().unique(),
+    rgb: text('rgb').notNull(),
+    hsl: text('hsl').notNull(),
+    oklch: text('oklch').notNull(),
+    cmyk: text('cmyk').notNull(),
+    hsb: text('hsb').notNull(),
+    lab: text('lab').notNull(),
+    lch: text('lch').notNull(),
+    displayp3: text('displayp3').notNull(),
+    a98: text('a98').notNull(),
+    prophoto: text('prophoto').notNull(),
+    xyz: text('xyz').notNull(),
+  },
+  (table) => {
+    return {
+      okhslIdx: index('okhsl_idx').on(table.okhsl),
+      hexIdx: index('hex_idx').on(table.hex),
     };
   }
 );

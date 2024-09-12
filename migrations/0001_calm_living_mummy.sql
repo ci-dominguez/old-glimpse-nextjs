@@ -1,1 +1,0 @@
-ALTER TABLE "user_subscriptions" ALTER COLUMN "start_date" SET DEFAULT now();

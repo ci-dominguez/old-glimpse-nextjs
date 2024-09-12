@@ -5,50 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1725907615618,
-      "tag": "0000_grey_professor_monster",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1725909107049,
-      "tag": "0001_calm_living_mummy",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1725926810998,
-      "tag": "0002_bouncy_the_santerians",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1725934381209,
-      "tag": "0003_living_madelyne_pryor",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1725937922769,
-      "tag": "0004_mature_terror",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1726000482568,
-      "tag": "0005_tense_proteus",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "7",
-      "when": 1726105533238,
-      "tag": "0006_smiling_warhawk",
+      "when": 1726172676065,
+      "tag": "0000_futuristic_fixer",
       "breakpoints": true
     }
   ]
