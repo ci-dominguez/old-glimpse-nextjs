@@ -3,7 +3,7 @@ import { useNav } from '@/contexts/NavContext';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Menu, X } from 'lucide-react';
+import { ChevronRight, Menu, X } from 'lucide-react';
 import { resourceLinks as links, toolLinks } from '@/utils/links';
 import { Button } from '../ui/button';
 import Logo from '@/components/icons/logo';
@@ -15,7 +15,7 @@ const Nav = () => {
   const path = usePathname();
   return (
     <nav
-      className={`fixed py-3 px-4 space-y-8 rounded-xl bg-white border-[1px] border-muted-background flex flex-col ${
+      className={`fixed py-3 px-4 rounded-xl bg-white border-[1px] border-muted-background flex flex-col ${
         extended ? 'inset-6' : 'top-6 inset-x-6'
       }`}
     >
@@ -39,7 +39,7 @@ const Nav = () => {
         </button>
       </div>
       {extended && (
-        <div className='flex-grow overflow-y-auto max-h-[calc(100vh-6rem)]'>
+        <div className='flex-grow py-8 overflow-y-auto max-h-[calc(100vh-6rem)]'>
           <div className='space-y-8'>
             {toolLinks.map((cat) => {
               return (
@@ -72,10 +72,10 @@ const Nav = () => {
             })}
             <div className='space-y-3'>
               <h2 className='font-bold text-xl'>Resources</h2>
-              <ul className='grid grid-cols-2 gap-2 items-center font-semibold'>
+              <ul className='grid grid-cols-1 gap-2 items-center font-semibold'>
                 {links.map((link) => {
                   return (
-                    <li key={link.name} className='w-full'>
+                    <li key={link.name} className='w-full '>
                       <Button
                         variant={path === link.href ? 'outline' : 'ghost'}
                         className='p-0 text-md w-full'
@@ -85,7 +85,7 @@ const Nav = () => {
                             setExtended(false);
                           }}
                           href={link.href}
-                          className='px-4 py-2 w-full'
+                          className='px-4 py-2 w-full text-left'
                         >
                           {link.name}
                         </Link>
@@ -130,16 +130,19 @@ const Nav = () => {
                 setExtended(false);
               }}
               href='profile'
-              className='flex items-center space-x-2'
+              className='flex justify-between items-center'
             >
-              <Image
-                src={user!.imageUrl}
-                alt={`${user!.firstName}'s profile`}
-                width='35'
-                height='35'
-                className='rounded-full'
-              />
-              <span className='text-md font-medium'>{user?.firstName}</span>
+              <div className='flex items-center space-x-2'>
+                <Image
+                  src={user!.imageUrl}
+                  alt={`${user!.firstName}'s profile`}
+                  width='35'
+                  height='35'
+                  className='rounded-full'
+                />
+                <span className='text-md font-medium'>{user?.firstName}</span>
+              </div>
+              <ChevronRight className='size-5' />
             </Link>
           </SignedIn>
         </div>
