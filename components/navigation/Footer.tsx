@@ -1,6 +1,6 @@
 'use client';
 import { useNav } from '@/contexts/NavContext';
-import { links } from '@/utils/links';
+import { resourceLinks as links } from '@/utils/links';
 import Link from 'next/link';
 import Logo from '../icons/logo';
 import { Button } from '../ui/button';
@@ -17,7 +17,7 @@ const Footer = () => {
         className='flex items-center space-x-2 font-medium text-lg justify-center'
       >
         <Logo className='size-8 fill-white' />
-        <span>Glimpse</span>
+        <h1>Glimpse</h1>
       </Link>
       <ul className='flex flex-col space-y-2'>
         <li>
