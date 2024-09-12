@@ -93,10 +93,8 @@ const GenerateColorSystemForm = () => {
                     Let&apos;s bring your idea to life 💡
                   </h2>
                 </FormLabel>
-                <FormDescription>
-                  <h3 className='text-lg font-medium text-on'>
-                    Describe the mood, industry, or purpose of your idea.
-                  </h3>
+                <FormDescription className='text-lg font-medium text-on'>
+                  Describe the mood, industry, or purpose of your idea.
                 </FormDescription>
                 <FormControl>
                   <Textarea
@@ -124,13 +122,13 @@ const GenerateColorSystemForm = () => {
                     defaultValue={field.value}
                     className='flex space-x-4'
                   >
-                    <FormItem className='flex items-center space-x-2'>
+                    <FormItem className='flex items-center space-x-2 space-y-0'>
                       <FormControl>
                         <RadioGroupItem value='light' />
                       </FormControl>
                       <FormLabel className='font-normal'>Light Mode</FormLabel>
                     </FormItem>
-                    <FormItem className='flex items-center space-x-2'>
+                    <FormItem className='flex items-center space-x-2 space-y-0'>
                       <FormControl>
                         <RadioGroupItem value='dark' />
                       </FormControl>
