@@ -192,7 +192,7 @@ export default function Home() {
         <h3 className='text-xl font-bold text-on'>Design with everyone</h3>
         <p>
           Create shareable palette URLs to get instant feedback from colleagues
-          or clients, and control your project's visibility with public and
+          or clients, and control your project&apos;s visibility with public and
           private settings. <br />
           <br />
           Showcase your best work to the Glimpse community, drawing inspiration
