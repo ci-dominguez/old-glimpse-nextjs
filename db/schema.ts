@@ -17,7 +17,7 @@ export const subscriptionTierEnum = pgEnum('subscription_tier_type', [
   'Max',
 ]);
 
-export const paletteMode = pgEnum('palette_mode', ['light', 'dark']);
+export const colorSystemMode = pgEnum('colorSystem_mode', ['light', 'dark']);
 
 export const users = pgTable('users', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -28,14 +28,22 @@ export const users = pgTable('users', {
   currentSubscriptionTierId: integer('current_subscription_tier_id')
     .notNull()
     .references(() => subscriptionTiers.id),
-  totalGenerations: integer('total_generations').notNull().default(0),
-  currentMonthGenerations: integer('current_month_generations')
+
+  totalColorSystemGenerations: integer('total_color_system_generations')
     .notNull()
     .default(0),
-  totalStoredPalettes: integer('total_stored_palettes').notNull().default(0),
+  currMonthColorSystemGenerations: integer(
+    'curr_month_color_system_generations'
+  )
+    .notNull()
+    .default(0),
+  totalStoredColorSystems: integer('total_stored_color_systems')
+    .notNull()
+    .default(0),
   lastGenerationReset: timestamp('last_generation_reset', {
     withTimezone: true,
   }).defaultNow(),
+
   lastLoginDate: timestamp('last_login_date', {
     withTimezone: true,
   }).defaultNow(),
@@ -46,8 +54,10 @@ export const users = pgTable('users', {
 export const subscriptionTiers = pgTable('subscription_tiers', {
   id: serial('id').primaryKey(),
   name: subscriptionTierEnum('name').notNull().unique().default('Basic'),
-  monthlyGenerationLimit: integer('monthly_generation_limit').notNull(),
-  maxStoredPalettes: integer('max_stored_palettes').notNull(),
+  monthlyColorSystemGenerationLimit: integer(
+    'monthly_color_system_generation_limit'
+  ).notNull(),
+  maxStoredColorSystems: integer('max_stored_color_systems').notNull(),
   price: decimal('price', { precision: 10, scale: 2 }).notNull(),
 });
 
@@ -68,8 +78,8 @@ export const userSubscriptions = pgTable('user_subscriptions', {
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
 });
 
-export const colorPalettes = pgTable(
-  'color_palettes',
+export const colorSystems = pgTable(
+  'color_systems',
   {
     id: uuid('id').defaultRandom().primaryKey(),
     userId: uuid('user_id')
@@ -77,7 +87,7 @@ export const colorPalettes = pgTable(
       .references(() => users.id),
     name: text('name').notNull(),
     description: text('description'),
-    mode: paletteMode('mode').notNull(),
+    mode: colorSystemMode('mode').notNull(),
     baseColors: text('base_colors')
       .array()
       .notNull()

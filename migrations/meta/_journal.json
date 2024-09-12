@@ -43,6 +43,13 @@
       "when": 1726000482568,
       "tag": "0005_tense_proteus",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1726105533238,
+      "tag": "0006_smiling_warhawk",
+      "breakpoints": true
     }
   ]
 }
