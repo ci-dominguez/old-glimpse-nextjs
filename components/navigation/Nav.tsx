@@ -2,12 +2,15 @@
 import { useNav } from '@/contexts/NavContext';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
 import { resourceLinks as links, toolLinks } from '@/utils/links';
 import { Button } from '../ui/button';
 import Logo from '@/components/icons/logo';
+import { SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs';
 
 const Nav = () => {
+  const { user } = useUser();
   const { extended, setExtended } = useNav();
   const path = usePathname();
   return (
@@ -97,28 +100,48 @@ const Nav = () => {
       )}
       {extended && (
         <div className='flex flex-col space-y-4 pt-3 border-t-[1px] border-muted-background'>
-          <Button variant='secondary' className='p-0 text-md'>
+          <SignedOut>
+            <Button variant='secondary' className='p-0 text-md'>
+              <Link
+                onClick={() => {
+                  setExtended(false);
+                }}
+                href='/sign-in'
+                className='px-4 py-2 w-full'
+              >
+                Login
+              </Link>
+            </Button>
+            <Button className='p-0 text-md'>
+              <Link
+                onClick={() => {
+                  setExtended(false);
+                }}
+                href='/sign-up'
+                className='px-4 py-2 w-full'
+              >
+                Join
+              </Link>
+            </Button>
+          </SignedOut>
+          <SignedIn>
             <Link
               onClick={() => {
                 setExtended(false);
               }}
-              href='/sign-in'
-              className='px-4 py-2 w-full'
+              href='profile'
+              className='flex items-center space-x-2'
             >
-              Login
+              <Image
+                src={user!.imageUrl}
+                alt={`${user!.firstName}'s profile`}
+                width='35'
+                height='35'
+                className='rounded-full'
+              />
+              <span className='text-md font-medium'>{user?.firstName}</span>
             </Link>
-          </Button>
-          <Button className='p-0 text-md'>
-            <Link
-              onClick={() => {
-                setExtended(false);
-              }}
-              href='/sign-up'
-              className='px-4 py-2 w-full'
-            >
-              Join
-            </Link>
-          </Button>
+          </SignedIn>
         </div>
       )}
     </nav>
