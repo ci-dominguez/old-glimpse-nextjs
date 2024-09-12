@@ -10,6 +10,9 @@ const Footer = () => {
   return (
     <footer className='flex flex-col m-2 px-6 py-12 space-y-6 rounded-xl bg-black text-white text-center'>
       <Link
+        onClick={() => {
+          setExtended(false);
+        }}
         href='/'
         className='flex items-center space-x-2 font-medium text-lg justify-center'
       >
