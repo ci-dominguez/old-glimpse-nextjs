@@ -2,14 +2,7 @@
 import { useNav } from '@/contexts/NavContext';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import {
-  Accessibility,
-  Cpu,
-  Library,
-  Rocket,
-  Share2,
-  Users,
-} from 'lucide-react';
+import { Cpu, Library, Rocket, Share2, Users } from 'lucide-react';
 import Blob from '@/components/icons/blob';
 import { tools } from '@/utils/tools';
 
@@ -21,7 +14,7 @@ const categories = [
   },
   {
     name: 'Realtime Collaboration Suite',
-    category: 'Realtime Collaboration',
+    category: 'Essential Tools',
     icon: <Users />,
   },
   {
@@ -29,11 +22,11 @@ const categories = [
     category: 'Libraries',
     icon: <Library />,
   },
-  {
-    name: 'Accessibility Simulation Suite',
-    category: 'Accessibility Suite',
-    icon: <Accessibility />,
-  },
+  // {
+  //   name: 'Accessibility Simulation Suite',
+  //   category: 'Accessibility Suite',
+  //   icon: <Accessibility />,
+  // },
   {
     name: 'Export & Integration Options',
     category: 'Exports & Integrations',
