@@ -1,4 +1,4 @@
-import { getUserColorSystems } from '@/utils/apiUtils/dbUtils';
+import { getUserColorSystems } from '@/utils/apiUtils/colorSystemUtils';
 import { authenticateUser } from '@/utils/apiUtils/authUtils';
 import ColorSystemCard from '@/components/cards/ColorSystemCard';
 import { ColorSystemCard as SystemCardType } from '@/utils/types/interfaces';

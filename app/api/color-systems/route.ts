@@ -5,8 +5,8 @@ import { db } from '@/db/db';
 import { users, colorSystems, subscriptionTiers } from '@/db/schema';
 import { authenticateUser, handleApiError } from '@/utils/apiUtils/authUtils';
 import { eq, sql } from 'drizzle-orm';
-import { createOrRetrieveColor } from '@/utils/operations/color-ops';
-import { getUserColorSystems } from '@/utils/apiUtils/dbUtils';
+import { createOrRetrieveColor } from '@/utils/apiUtils/colorUtils';
+import { getUserColorSystems } from '@/utils/apiUtils/colorSystemUtils';
 
 const openai = new OpenAI({
   apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,

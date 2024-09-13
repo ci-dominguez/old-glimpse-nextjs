@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/db/db';
 import { colors } from '@/db/schema';
 import { inArray } from 'drizzle-orm';
-import { createOrRetrieveColor } from '@/utils/operations/color-ops';
+import { createOrRetrieveColor } from '@/utils/apiUtils/colorUtils';
 
 export async function POST(req: NextRequest) {
   try {

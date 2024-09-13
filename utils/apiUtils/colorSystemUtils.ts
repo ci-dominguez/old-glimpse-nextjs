@@ -1,5 +1,5 @@
 import { db } from '@/db/db';
-import { colorSystems, users, subscriptionTiers } from '@/db/schema';
+import { colorSystems } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import { ColorSystemCard } from '@/utils/types/interfaces';
 
