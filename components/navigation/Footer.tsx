@@ -22,16 +22,20 @@ const Footer = () => {
       <div className='grid grid-cols-2 gap-x-2 gap-y-6 text-left'>
         {toolLinks.map((link) => {
           return (
-            <ul key={link.categoryName}>
+            <ul key={link.categoryName} className='flex flex-col'>
               <li>{link.categoryName}</li>
               {link.tools.map((tool) => {
                 return (
-                  <li key={tool.name} className='font-medium text-on ml-2'>
+                  <li
+                    key={tool.name}
+                    className='font-medium text-on ml-2 self-start'
+                  >
                     <Link
                       onClick={() => {
                         setExtended(false);
                       }}
                       href={tool.href}
+                      className='hover:text-neutral-400 active:text-neutral-400'
                     >
                       {tool.name}
                     </Link>
@@ -41,16 +45,20 @@ const Footer = () => {
             </ul>
           );
         })}
-        <ul>
+        <ul className='flex flex-col'>
           <li>Resources</li>
           {resourceLinks.map((link) => {
             return (
-              <li key={link.name} className='font-medium text-on ml-2'>
+              <li
+                key={link.name}
+                className='font-medium text-on ml-2 self-start'
+              >
                 <Link
                   onClick={() => {
                     setExtended(false);
                   }}
                   href={link.href}
+                  className='hover:text-neutral-400 active:text-neutral-400'
                 >
                   {link.name}
                 </Link>

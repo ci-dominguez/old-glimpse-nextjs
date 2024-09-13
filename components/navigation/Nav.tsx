@@ -3,12 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNav } from '@/contexts/NavContext';
 import { usePathname } from 'next/navigation';
 import { useScrollDirection } from '@/hooks/useScrollDirection';
-import {
-  motion,
-  useScroll,
-  useMotionValueEvent,
-  useAnimation,
-} from 'framer-motion';
+import { motion, useAnimation } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronRight, Menu, X } from 'lucide-react';
