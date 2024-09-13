@@ -5,19 +5,17 @@ import { db } from '@/db/db';
 import { users, colorSystems, subscriptionTiers } from '@/db/schema';
 import { authenticateUser, handleApiError } from '@/utils/apiHandlers';
 import { eq, sql } from 'drizzle-orm';
+import { createOrRetrieveColor } from '@/utils/operations/color-ops';
 
-//Initialize OpenAI client
 const openai = new OpenAI({
   apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
 });
 
-//Define input schema
 const promptSchema = z.object({
   prompt: z.string().min(1).max(200),
   mode: z.enum(['light', 'dark']),
 });
 
-//Define output schema
 const colorSchema = z
   .string()
   .regex(/^okHsl\(\d{1,3}\s\d{1,3}%\s\d{1,3}%\)$/, 'Invalid color format');
@@ -25,7 +23,6 @@ const responseSchema = z.object({
   colors: z.array(colorSchema).length(6),
 });
 
-//Define system prompts for light and dark mode palettes
 const LIGHT_MODE_SYSTEM_PROMPT =
   'You are an expert in color theory and design systems. Generate a harmonious color palette for light mode interfaces based on the given description. Consider accessibility, color harmony principles (complementary, analogous, or triadic), and perceptual uniformity. Respond ONLY with 5 OKHsl main color values and 1 light background color, separated by commas, in the format: okHsl(H S% L%). For the main colors: Use hue values between 0-360, saturation between 50-80%, lightness between 40-60%. For the background color: Use a neutral tone with saturation below 10%, lightness between 85-95% for a light background. Ensure sufficient contrast between colors for accessibility, especially between the main colors and the light background. Use a wide gamut to allow for vibrant and muted colors while maintaining readability on the light background.';
 
@@ -67,7 +64,6 @@ async function checkUserLimits(userId: string) {
 }
 
 export async function POST(req: NextRequest) {
-  //Validate API key
   if (!process.env.NEXT_PUBLIC_OPENAI_API_KEY) {
     console.error('OpenAI API key is not set');
     return NextResponse.json(
@@ -77,13 +73,11 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    //Look up user in database
+    //Look up user in db
     const user = await authenticateUser(req);
-
     const dbUserId = user.id;
 
     try {
-      //Parse and validate request body
       const body = await req.json();
       const parseResult = promptSchema.safeParse(body);
 
@@ -136,16 +130,13 @@ export async function POST(req: NextRequest) {
       const colors = aiResp?.split(',').map((color) => color.trim()) || [];
       const { colors: validatedColors } = responseSchema.parse({ colors });
 
-      const baseColors = validatedColors.slice(0, 5) as [
-        string,
-        string,
-        string,
-        string,
-        string
-      ];
-      const backgroundColor = validatedColors[5];
+      const baseColorIds = [];
+      for (const color of validatedColors.slice(0, 5)) {
+        const id = await createOrRetrieveColor(color);
+        baseColorIds.push(id);
+      }
 
-      let colorSystemId: string | undefined;
+      const backgroundColorId = await createOrRetrieveColor(validatedColors[5]);
 
       console.log('OpenAI API response:', aiResp);
 
@@ -156,15 +147,19 @@ export async function POST(req: NextRequest) {
             userId: dbUserId,
             name: `My ${
               mode.charAt(0).toUpperCase() + mode.slice(1)
-            } Color System ✨`,
+            } Color System ${mode === 'light' ? '🌇' : '🌃'}`,
             description: prompt,
             mode,
-            baseColors,
-            backgroundColor,
+            baseColors: baseColorIds as [
+              string,
+              string,
+              string,
+              string,
+              string
+            ],
+            backgroundColor: backgroundColorId,
           })
           .returning({ id: colorSystems.id });
-
-        colorSystemId = newColorSystem.id;
 
         await db
           .update(users)
@@ -176,7 +171,10 @@ export async function POST(req: NextRequest) {
           .where(eq(users.id, dbUserId));
 
         //If can store and generate return color system
-        return NextResponse.json({ colorSystemId, colors: validatedColors });
+        return NextResponse.json({
+          colorSystemId: newColorSystem.id,
+          colors: validatedColors,
+        });
       }
 
       //If user limits are reached return error
