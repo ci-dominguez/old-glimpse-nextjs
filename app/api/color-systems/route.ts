@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { db } from '@/db/db';
 import { users, colorSystems, subscriptionTiers } from '@/db/schema';
 import { authenticateUser, handleApiError } from '@/utils/apiHandlers';
-import { eq, sql } from 'drizzle-orm';
+import { eq, is, sql } from 'drizzle-orm';
 import { createOrRetrieveColor } from '@/utils/operations/color-ops';
 
 const openai = new OpenAI({
@@ -209,6 +209,9 @@ export async function GET(req: NextRequest) {
         id: colorSystems.id,
         name: colorSystems.name,
         description: colorSystems.description,
+        baseColors: colorSystems.baseColors,
+        backgroundColor: colorSystems.backgroundColor,
+        isFavorite: colorSystems.isFavorite,
       })
       .from(colorSystems)
       .where(eq(colorSystems.userId, user.id));
