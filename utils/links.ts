@@ -7,19 +7,13 @@ export const resourceLinks = [
 
 export const toolLinks = [
   {
-    categoryName: 'Popular Tools',
+    categoryName: 'Essential Tools',
     tools: [
       { name: 'Palette Editor', href: '/palette-editor' },
       { name: 'Gradient Designer', href: '/gradient-designer' },
-      { name: 'Palette Gallery', href: '/palette-gallery' },
-      {
-        name: 'Gradient Gallery',
-        href: 'gradient-gallery',
-      },
-      { name: 'Color Swatches', href: '/color-swatches' },
       {
         name: 'Palette Extractor',
-        href: '/features/exporting/image-to-palette',
+        href: '/image-to-palette',
       },
     ],
   },
@@ -28,29 +22,34 @@ export const toolLinks = [
     tools: [
       { name: 'Color Systems', href: '/color-system-generator' },
       { name: 'Mood Matcher', href: '/mood-palettes' },
-      { name: 'Co-Generator', href: '/cogen' },
+      // { name: 'Co-Generator', href: '/cogen' },
     ],
   },
   {
     categoryName: 'Libraries',
     tools: [
       { name: 'Color Swatches', href: '/color-swatches' },
-      { name: 'Color Books', href: '/color-books' },
-      { name: 'Color Trends', href: '/trend-archive' },
-      { name: 'Brand Color Vault', href: '/brand-database' },
+      { name: 'Palette Gallery', href: '/palette-gallery' },
+      {
+        name: 'Gradient Gallery',
+        href: 'gradient-gallery',
+      },
+      // { name: 'Color Books', href: '/color-books' },
+      // { name: 'Color Trends', href: '/trend-archive' },
+      // { name: 'Brand Color Vault', href: '/brand-database' },
     ],
   },
-  {
-    categoryName: 'Accessibility Tools',
-    tools: [
-      {
-        name: 'Contract Checker',
-        href: '/contrast-checker',
-      },
-      {
-        name: 'Visual Impairment Simulator',
-        href: '/impairment-simulator',
-      },
-    ],
-  },
+  // {
+  //   categoryName: 'Accessibility Tools',
+  //   tools: [
+  //     {
+  //       name: 'Contract Checker',
+  //       href: '/contrast-checker',
+  //     },
+  //     {
+  //       name: 'Visual Impairment Simulator',
+  //       href: '/impairment-simulator',
+  //     },
+  //   ],
+  // },
 ];
