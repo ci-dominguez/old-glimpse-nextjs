@@ -19,7 +19,7 @@ export interface Color {
 export interface ColorSystemCard {
   id: string;
   name: string;
-  description: string;
+  description: string | null;
   baseColors: string[];
   backgroundColor: string;
   isFavorite: boolean;
