@@ -3,9 +3,10 @@ import OpenAI from 'openai';
 import { z } from 'zod';
 import { db } from '@/db/db';
 import { users, colorSystems, subscriptionTiers } from '@/db/schema';
-import { authenticateUser, handleApiError } from '@/utils/apiHandlers';
-import { eq, is, sql } from 'drizzle-orm';
+import { authenticateUser, handleApiError } from '@/utils/apiUtils/authUtils';
+import { eq, sql } from 'drizzle-orm';
 import { createOrRetrieveColor } from '@/utils/operations/color-ops';
+import { getUserColorSystems } from '@/utils/apiUtils/dbUtils';
 
 const openai = new OpenAI({
   apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
@@ -204,17 +205,7 @@ export async function GET(req: NextRequest) {
     const user = await authenticateUser(req);
 
     //Fetch all color systems for user
-    const systems = await db
-      .select({
-        id: colorSystems.id,
-        name: colorSystems.name,
-        description: colorSystems.description,
-        baseColors: colorSystems.baseColors,
-        backgroundColor: colorSystems.backgroundColor,
-        isFavorite: colorSystems.isFavorite,
-      })
-      .from(colorSystems)
-      .where(eq(colorSystems.userId, user.id));
+    const systems = getUserColorSystems(user.id);
 
     return NextResponse.json(systems);
   } catch (error) {
