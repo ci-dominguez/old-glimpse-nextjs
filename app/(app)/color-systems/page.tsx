@@ -1,48 +1,11 @@
-'use client';
+import { getUserColorSystems } from '@/utils/apiUtils/dbUtils';
+import { authenticateUser } from '@/utils/apiUtils/authUtils';
 import ColorSystemCard from '@/components/cards/ColorSystemCard';
 import { ColorSystemCard as SystemCardType } from '@/utils/types/interfaces';
-import { useEffect, useState } from 'react';
 
-const ColorSystemsPage = () => {
-  const [systems, setSystems] = useState<SystemCardType[] | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    async function fetchSystemData() {
-      try {
-        const resp = await fetch('/api/color-systems', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (!resp.ok) {
-          throw new Error('Failed to fetch color system data for user');
-        }
-
-        const data: SystemCardType[] = await resp.json();
-        console.log('fetched data:', data);
-        setSystems(data);
-      } catch (error) {
-        setError(
-          error instanceof Error
-            ? error.message
-            : 'Error fetching color system data'
-        );
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchSystemData();
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (!systems || systems.length === 0)
-    return <div>No Color Systems found!</div>;
+export default async function ColorSystemsPage() {
+  const user = await authenticateUser();
+  const systems: SystemCardType[] = await getUserColorSystems(user.id);
 
   return (
     <main className='flex flex-col min-h-screen'>
@@ -57,13 +20,10 @@ const ColorSystemsPage = () => {
       </section>
 
       <section className='flex flex-col m-2 px-6 py-12 space-y-6 rounded-xl bg-off text-center'>
-        {systems.map((system) => {
-          console.log('Current Color system in data:', system);
-          return <ColorSystemCard key={system.id} colorSystem={system} />;
-        })}
+        {systems.map((system) => (
+          <ColorSystemCard key={system.id} colorSystem={system} />
+        ))}
       </section>
     </main>
   );
-};
-
-export default ColorSystemsPage;
+}
