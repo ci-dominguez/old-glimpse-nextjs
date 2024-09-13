@@ -1,11 +1,20 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getAuth } from '@clerk/nextjs/server';
+import { type NextRequest, NextResponse } from 'next/server';
+import { getAuth, auth } from '@clerk/nextjs/server';
 import { db } from '@/db/db';
 import { users } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 
-export async function authenticateUser(req: NextRequest) {
-  const { userId: clerkUserId } = getAuth(req);
+export async function authenticateUser(req?: NextRequest) {
+  let clerkUserId;
+
+  //Check if req is coming from api or server component
+  if (req) {
+    const { userId } = getAuth(req);
+    clerkUserId = userId;
+  } else {
+    const { userId } = auth();
+    clerkUserId = userId;
+  }
 
   if (!clerkUserId) {
     throw new Error('User is not authenticated');
