@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { ColorSystemCard as ColorSystemCardType } from '@/utils/types/interfaces';
+import { Skeleton } from '../ui/skeleton';
 
 interface ColorSystemCardProps {
   colorSystem: ColorSystemCardType;
@@ -56,9 +57,6 @@ const ColorSystemCard = ({ colorSystem }: ColorSystemCardProps) => {
     fetchColors();
   }, [colorSystem.baseColors, colorSystem.backgroundColor, colorSystem.id]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-
   const backgroundColorHex =
     colors.find((c) => c.id === colorSystem.backgroundColor)?.hex || '#FFFFFF';
   const baseColorHexes = colorSystem.baseColors.map(
@@ -69,27 +67,49 @@ const ColorSystemCard = ({ colorSystem }: ColorSystemCardProps) => {
     <Link href={`/color-systems/${colorSystem.id}`}>
       <Card className='hover:shadow-lg transition-shadow duration-300 text-left'>
         <CardHeader>
-          <CardTitle>{colorSystem.name}</CardTitle>
+          {loading ? (
+            <Skeleton className='w-full h-8 rounded' />
+          ) : (
+            <CardTitle>{colorSystem.name}</CardTitle>
+          )}
         </CardHeader>
         <CardContent>
-          <div
-            className='w-full h-16 rounded mb-4'
-            style={{ backgroundColor: backgroundColorHex }}
-          />
+          {loading ? (
+            <Skeleton className='w-full h-16 rounded mb-4' />
+          ) : (
+            <div
+              className='w-full h-16 rounded mb-4'
+              style={{ backgroundColor: backgroundColorHex }}
+            />
+          )}
+
           <div className='flex justify-between mb-4'>
-            {baseColorHexes.map((hex, index) => (
-              <div
-                key={index}
-                className='w-8 h-8 rounded'
-                style={{ backgroundColor: hex }}
-              />
-            ))}
+            {loading ? (
+              <>
+                <Skeleton className='w-8 h-8 rounded' />
+                <Skeleton className='w-8 h-8 rounded' />
+                <Skeleton className='w-8 h-8 rounded' />
+                <Skeleton className='w-8 h-8 rounded' />
+                <Skeleton className='w-8 h-8 rounded' />
+              </>
+            ) : (
+              baseColorHexes.map((hex, index) => (
+                <div
+                  key={index}
+                  className='w-8 h-8 rounded'
+                  style={{ backgroundColor: hex }}
+                />
+              ))
+            )}
           </div>
-          <CardDescription>
-            {colorSystem.description.length > 100
-              ? `${colorSystem.description.slice(0, 100)}...`
-              : colorSystem.description}
-          </CardDescription>
+
+          {loading ? (
+            <Skeleton className='w-full h-24 rounded' />
+          ) : colorSystem.description!.length > 100 ? (
+            `${colorSystem.description!.slice(0, 100)}...`
+          ) : (
+            <CardDescription>{colorSystem.description}</CardDescription>
+          )}
         </CardContent>
       </Card>
     </Link>
