@@ -58,8 +58,22 @@ export function okhslToRgb(okhsl: Okhsl): Rgb {
   return rgb(oklchColor);
 }
 
+export function rgbToOkhsl(rgb: Rgb): Okhsl {
+  const oklchColor = oklch(rgb);
+  return {
+    mode: 'okhsl',
+    h: oklchColor.h,
+    s: oklchColor.c,
+    l: oklchColor.l,
+  };
+}
+
 export function rgbToHex(rgb: Rgb): string {
   return formatHex(rgb);
+}
+
+export function hexToRgb(hex: string): Rgb {
+  return rgb(hex)!;
 }
 
 export function rgbToHsl(rgb: Rgb): Hsl {

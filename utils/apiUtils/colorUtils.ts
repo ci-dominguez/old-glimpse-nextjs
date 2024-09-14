@@ -1,7 +1,10 @@
 import { db } from '@/db/db';
 import { colors } from '@/db/schema';
 import { eq } from 'drizzle-orm';
-import { parseOkhsl, generateAllColorSpaces } from '@/utils/color-conversions';
+import {
+  parseOkhsl,
+  generateAllColorSpaces,
+} from '@/utils/ops/colorConversionOps';
 import colorNameList from 'color-name-list';
 
 function colorDifference(color1: string, color2: string) {
