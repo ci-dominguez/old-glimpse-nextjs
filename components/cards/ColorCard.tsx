@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react';
 import { Check, Copy } from 'lucide-react';
-import { Card, CardContent } from './ui/card';
 
 interface ColorCardProps {
   color: {
@@ -38,25 +37,22 @@ const ColorCard = ({ color, colorSpace }: ColorCardProps) => {
   };
 
   return (
-    <Card className='group relative cursor-pointer' onClick={copyToClipboard}>
-      <CardContent className='p-2'>
-        <div
-          className='w-full aspect-square rounded'
-          style={{ backgroundColor: color.hex }}
-        />
-        <div className='flex flex-col items-center mt-2'>
-          <p className='text-center text-xs font-medium'>{color.name}</p>
-          <div className='flex items-center space-x-2'>
-            {copied ? (
-              <Check className='h-4 w-4 stroke-green-500' />
-            ) : (
-              <Copy className='h-4 w-4 stroke-muted-foreground hover:stroke-black' />
-            )}
-            <p className='text-center text-sm'>{color[colorSpace]}</p>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+    <div
+      className='group relative cursor-pointer flex flex-col'
+      onClick={copyToClipboard}
+    >
+      <div
+        className='w-full aspect-square rounded'
+        style={{ backgroundColor: color.hex }}
+      />
+      <div className='flex items-center space-x-2 opacity-0 group-hover:opacity-100 group-active:flex mx-auto pt-1'>
+        {copied ? (
+          <Check className='h-4 w-4 stroke-green-500' />
+        ) : (
+          <Copy className='h-4 w-4 stroke-muted-foreground hover:stroke-black' />
+        )}
+      </div>
+    </div>
   );
 };
 
