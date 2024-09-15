@@ -8,6 +8,13 @@
       "when": 1726172676065,
       "tag": "0000_futuristic_fixer",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1726355428979,
+      "tag": "0001_moaning_stick",
+      "breakpoints": true
     }
   ]
 }

@@ -17,6 +17,13 @@ export const subscriptionTierEnum = pgEnum('subscription_tier_type', [
   'Max',
 ]);
 
+export const subscriptionStatusEnum = pgEnum('subscription_status', [
+  'active',
+  'past_due',
+  'canceled',
+  'unpaid',
+]);
+
 export const colorSystemMode = pgEnum('colorSystem_mode', ['light', 'dark']);
 
 export const users = pgTable('users', {
@@ -58,7 +65,10 @@ export const subscriptionTiers = pgTable('subscription_tiers', {
     'monthly_color_system_generation_limit'
   ).notNull(),
   maxStoredColorSystems: integer('max_stored_color_systems').notNull(),
-  price: decimal('price', { precision: 10, scale: 2 }).notNull(),
+  stripePriceIdMonthly: text('stripe_price_id_monthly').notNull(),
+  stripePriceIdYearly: text('stripe_price_id_yearly').notNull(),
+  priceMonthly: decimal('price_monthly', { precision: 10, scale: 2 }).notNull(),
+  priceYearly: decimal('price_yearly', { precision: 10, scale: 2 }).notNull(),
 });
 
 export const userSubscriptions = pgTable('user_subscriptions', {
@@ -69,11 +79,16 @@ export const userSubscriptions = pgTable('user_subscriptions', {
   subscriptionTierId: integer('subscription_tier_id')
     .notNull()
     .references(() => subscriptionTiers.id),
-  startDate: timestamp('start_date', { withTimezone: true })
-    .defaultNow()
-    .notNull(),
-  endDate: timestamp('end_date', { withTimezone: true }),
-  isActive: boolean('is_active').notNull().default(true),
+  stripeSubscriptionId: text('stripe_subscription_id').notNull().unique(),
+  stripePriceId: text('stripe_price_id').notNull(),
+  status: subscriptionStatusEnum('status').notNull().default('active'),
+  currentPeriodStart: timestamp('current_period_start', {
+    withTimezone: true,
+  }).notNull(),
+  currentPeriodEnd: timestamp('current_period_end', {
+    withTimezone: true,
+  }).notNull(),
+  cancelAtPeriodEnd: boolean('cancel_at_period_end').notNull().default(false),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
 });
@@ -86,7 +101,7 @@ export const colorSystems = pgTable(
       .notNull()
       .references(() => users.id),
     name: text('name').notNull(),
-    description: text('description'),
+    description: text('description').notNull(),
     mode: colorSystemMode('mode').notNull(),
     baseColors: uuid('base_colors')
       .array()
@@ -109,7 +124,7 @@ export const colors = pgTable(
   'colors',
   {
     id: uuid('id').defaultRandom().primaryKey(),
-    name: text('name'),
+    name: text('name').notNull(),
     okhsl: text('okhsl').notNull().unique(),
     hex: text('hex').notNull().unique(),
     rgb: text('rgb').notNull(),
