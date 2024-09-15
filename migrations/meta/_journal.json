@@ -15,6 +15,13 @@
       "when": 1726355428979,
       "tag": "0001_moaning_stick",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1726429492477,
+      "tag": "0002_flashy_mystique",
+      "breakpoints": true
     }
   ]
 }

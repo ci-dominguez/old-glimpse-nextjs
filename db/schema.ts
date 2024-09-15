@@ -50,7 +50,6 @@ export const users = pgTable('users', {
   lastGenerationReset: timestamp('last_generation_reset', {
     withTimezone: true,
   }).defaultNow(),
-
   lastLoginDate: timestamp('last_login_date', {
     withTimezone: true,
   }).defaultNow(),
@@ -79,8 +78,8 @@ export const userSubscriptions = pgTable('user_subscriptions', {
   subscriptionTierId: integer('subscription_tier_id')
     .notNull()
     .references(() => subscriptionTiers.id),
-  stripeSubscriptionId: text('stripe_subscription_id').notNull().unique(),
-  stripePriceId: text('stripe_price_id').notNull(),
+  stripeSubscriptionId: text('stripe_subscription_id').unique(),
+  stripePriceId: text('stripe_price_id'),
   status: subscriptionStatusEnum('status').notNull().default('active'),
   currentPeriodStart: timestamp('current_period_start', {
     withTimezone: true,
