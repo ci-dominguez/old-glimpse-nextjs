@@ -6,6 +6,10 @@ const nextConfig = {
         source: '/api/webhooks/clerk',
         headers: [{ key: 'Content-Type', value: 'application/json' }],
       },
+      {
+        source: '/api/webhooks/stripe',
+        headers: [{ key: 'Content-Type', value: 'application/json' }],
+      },
     ];
   },
   images: {
