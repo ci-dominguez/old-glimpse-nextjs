@@ -145,3 +145,13 @@ export const colors = pgTable(
     };
   }
 );
+
+export const contactMsgs = pgTable('contact_msgs', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  firstName: text('first_name').notNull(),
+  lastName: text('last_name').notNull(),
+  email: text('email').notNull(),
+  message: text('message').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
+});
