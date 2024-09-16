@@ -64,8 +64,8 @@ export const subscriptionTiers = pgTable('subscription_tiers', {
     'monthly_color_system_generation_limit'
   ).notNull(),
   maxStoredColorSystems: integer('max_stored_color_systems').notNull(),
-  stripePriceIdMonthly: text('stripe_price_id_monthly').notNull(),
-  stripePriceIdYearly: text('stripe_price_id_yearly').notNull(),
+  stripePriceIdMonthly: text('stripe_price_id_monthly'),
+  stripePriceIdYearly: text('stripe_price_id_yearly'),
   priceMonthly: decimal('price_monthly', { precision: 10, scale: 2 }).notNull(),
   priceYearly: decimal('price_yearly', { precision: 10, scale: 2 }).notNull(),
 });
