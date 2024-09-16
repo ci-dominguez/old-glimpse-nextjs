@@ -56,7 +56,12 @@ export async function createSubscription(
     .limit(1);
 
   if (!user[0].stripeCustomerId) {
-    throw new Error('User does not have a Stripe customer ID');
+    const customer = await createStripeCustomer(
+      userId,
+      user[0].email,
+      user[0].name
+    );
+    user[0].stripeCustomerId = customer.id;
   }
 
   const subscription = await stripe.subscriptions.create({
@@ -196,7 +201,7 @@ export async function getUserSubscriptions(userId: string) {
   return Promise.all(
     userSubs.map(async (sub) => {
       const stripeSubscription = await stripe.subscriptions.retrieve(
-        sub.stripeSubscriptionId
+        sub.stripeSubscriptionId!
       );
       return { ...sub, stripeSubscription };
     })
