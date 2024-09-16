@@ -6,13 +6,11 @@ export const tools = [
         name: 'Color Systems',
         description:
           "Our AI-powered color system generator that creates comprehensive palettes based on your brand/app's essence.",
-        limited: true,
       },
       {
         name: 'Mood Matcher',
         description:
           "Feeling blue? Or maybe sunny and bright? Tell us the vibes your're going for and we'll match the perfect palette.",
-        limited: true,
       },
       // {
       //   name: 'Co-Generation',
@@ -30,17 +28,14 @@ export const tools = [
         name: 'Palette Editor',
         description:
           'A color playground where you can mix, match, and share your colors with your team.',
-        limited: true,
       },
       {
         name: 'Gradient Designer',
         description: 'Craft gradients with our intuitive gradient visualizer.',
-        limited: true,
       },
       {
         name: 'Palette Extractor',
         description: 'Pull color palettes from any image.',
-        limited: true,
       },
     ],
   },
@@ -50,7 +45,6 @@ export const tools = [
       {
         name: 'Color Swatches',
         description: 'Browse through our curated collection of colors.',
-        limited: true,
       },
       // {
       //   name: 'Color Books',
@@ -98,7 +92,7 @@ export const tools = [
   //       description:
   //         'Inclusive design is not just black and white, simulate various visual impairments to see how your designs fare.',
   //       link: '/features/accessibility/impairment-simulator',
-  //       limited: true,
+  //
   //     },
   //   ],
   // },
@@ -109,13 +103,11 @@ export const tools = [
         name: 'Color Spaces',
         description:
           'We support a wide range of color spaces including but not limited to rgb, hsl, cmyk, and lab.',
-        limited: true,
       },
       {
         name: 'Exporting',
         description:
           'Export your designs in various formats like CSS/SCSS variables, TailwindCSS configs, PDF, XML, CSV, ASE, and more',
-        limited: true,
       },
     ],
   },
