@@ -182,7 +182,7 @@ export default function Home() {
       </section>
 
       <section className='flex flex-col m-2 px-6 py-12 space-y-6 rounded-xl bg-off'>
-        <h3 className='text-xl font-bold text-on'>Design with everyone</h3>
+        <h3 className='text-xl font-bold text-on'>Design with anyone</h3>
         <p>
           Create shareable palette URLs to get instant feedback from colleagues
           or clients, and control your project&apos;s visibility with public and
