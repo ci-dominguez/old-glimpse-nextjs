@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
 
   //Error if no headers
   if (!svixId || !svixTimestamp || !svixSignature) {
-    return new Response('Error occured -- no svix headers', {
+    return new Response('Error occurred -- no svix headers', {
       status: 400,
     });
   }
@@ -80,8 +80,8 @@ export async function POST(req: NextRequest) {
       await db.insert(userSubscriptions).values({
         userId: newUser.id,
         subscriptionTierId: 1,
-        startDate: new Date(),
-        isActive: true,
+        currentPeriodStart: new Date(),
+        currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
       });
 
       //Return success
@@ -89,7 +89,12 @@ export async function POST(req: NextRequest) {
       return new NextResponse('User created successfully', { status: 200 });
     } catch (error) {
       console.error('Error creating user:', error);
-      return new NextResponse('Error creating user', {
+      if (error instanceof Error) {
+        return new NextResponse(`Error creating user: ${error.message}`, {
+          status: 500,
+        });
+      }
+      return new NextResponse('Unknown error creating user', {
         status: 500,
       });
     }
