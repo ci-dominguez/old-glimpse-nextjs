@@ -6,14 +6,12 @@ export const tools = [
         name: 'Color Systems',
         description:
           "Our AI-powered color system generator that creates comprehensive palettes based on your brand/app's essence.",
-        link: '/features/ai/color-systems',
         limited: true,
       },
       {
         name: 'Mood Matcher',
         description:
           "Feeling blue? Or maybe sunny and bright? Tell us the vibes your're going for and we'll match the perfect palette.",
-        link: '/features/ai/mood-matcher',
         limited: true,
       },
       // {
@@ -32,19 +30,16 @@ export const tools = [
         name: 'Palette Editor',
         description:
           'A color playground where you can mix, match, and share your colors with your team.',
-        link: '/features/collab/palette-editor',
         limited: true,
       },
       {
         name: 'Gradient Designer',
         description: 'Craft gradients with our intuitive gradient visualizer.',
-        link: '/features/collab/gradient-designer',
         limited: true,
       },
       {
         name: 'Palette Extractor',
         description: 'Pull color palettes from any image.',
-        link: '/features/exporting/image-to-palette',
         limited: true,
       },
     ],
@@ -55,7 +50,6 @@ export const tools = [
       {
         name: 'Color Swatches',
         description: 'Browse through our curated collection of colors.',
-        link: '/features/libraries/swatch-curation',
         limited: true,
       },
       // {
@@ -67,13 +61,11 @@ export const tools = [
       {
         name: 'Palette Gallery',
         description: 'Get inspired by our museum of color palettes.',
-        link: '/features/libraries/palette-gallery',
         limited: false,
       },
       {
         name: 'Gradient Gallery',
         description: 'Find ready-to-use gradients for your next app.',
-        link: '/features/libraries/gradient-gallery',
         limited: false,
       },
       // {
@@ -117,14 +109,12 @@ export const tools = [
         name: 'Color Spaces',
         description:
           'We support a wide range of color spaces including but not limited to rgb, hsl, cmyk, and lab.',
-        link: '/features/exporting/color-spaces',
         limited: true,
       },
       {
         name: 'Exporting',
         description:
           'Export your designs in various formats like CSS/SCSS variables, TailwindCSS configs, PDF, XML, CSV, ASE, and more',
-        link: '/features/exporting/code-generator',
         limited: true,
       },
     ],

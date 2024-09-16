@@ -106,15 +106,7 @@ export default function Home() {
                       <div key={tool.name} className='flex flex-col pl-2'>
                         <h4 className='text-lg font-medium flex space-x-2 items-center pb-1'>
                           <Blob className=' h-3 fill-black' />
-                          <Link
-                            onClick={() => {
-                              setExtended(false);
-                            }}
-                            href={tool.link}
-                            className='underline underline-offset-2'
-                          >
-                            {tool.name}
-                          </Link>
+                          <span>{tool.name}</span>
                         </h4>
                         <p className='text-md text-on'>{tool.description}</p>
                       </div>
