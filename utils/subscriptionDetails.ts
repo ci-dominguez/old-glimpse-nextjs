@@ -4,6 +4,8 @@ export const subscriptionDetails = [
     description: 'Get started fast. No credit card required.',
     monthlyPrice: 0,
     yearlyPrice: 0,
+    monthlyLink: null,
+    yearlyLink: null,
     features: [
       'Ads visible on the page',
       'Create palettes up to 5 colors',
@@ -17,9 +19,11 @@ export const subscriptionDetails = [
   },
   {
     name: 'Pro',
-    description: 'Medium',
+    description: 'Unlock your creativity. Ideal for designers and hobbyists.',
     monthlyPrice: 5,
     yearlyPrice: 4,
+    monthlyLink: process.env.NEXT_PUBLIC_STRIPE_PRO_MONTHLY_LINK,
+    yearlyLink: process.env.NEXT_PUBLIC_STRIPE_PRO_YEARLY_LINK,
     features: [
       'Ad-free experience',
       'Create palettes up to 10 colors',
@@ -35,15 +39,17 @@ export const subscriptionDetails = [
   },
   {
     name: 'Max',
-    description: 'Full access',
+    description: 'Unlimited possibilities. For dedicated professionals.',
     monthlyPrice: 9,
     yearlyPrice: 7,
+    monthlyLink: process.env.NEXT_PUBLIC_STRIPE_MAX_MONTHLY_LINK,
+    yearlyLink: process.env.NEXT_PUBLIC_STRIPE_MAX_YEARLY_LINK,
     features: [
       'All Pro features',
       'Create palettes with unlimited colors',
       'Unlimited color palette and system storage',
       'Unlimited color system generation',
-      'Unlimited generation prompt length',
+      'Generation prompts up to 1000 characters',
       'Access to latest AI models for color creation',
     ],
   },
