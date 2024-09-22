@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/db/db';
 import { colors } from '@/db/schema';
-import { inArray } from 'drizzle-orm';
+import { inArray, sql } from 'drizzle-orm';
 import { createOrRetrieveColor } from '@/utils/apiUtils/colorUtils';
 
 export async function POST(req: NextRequest) {
@@ -28,7 +28,10 @@ export async function GET(req: NextRequest) {
     const ids = searchParams.get('ids');
 
     if (!ids) {
-      colorDetails = await db.select().from(colors);
+      colorDetails = await db
+        .select()
+        .from(colors)
+        .orderBy(sql`RANDOM()`);
 
       return NextResponse.json(colorDetails);
     } else {
