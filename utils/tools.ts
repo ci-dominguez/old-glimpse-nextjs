@@ -22,24 +22,6 @@ export const tools = [
     ],
   },
   {
-    category: 'Essential Tools',
-    tools: [
-      {
-        name: 'Palette Editor',
-        description:
-          'A color playground where you can mix, match, and share your colors with your team.',
-      },
-      {
-        name: 'Gradient Designer',
-        description: 'Craft gradients with our intuitive gradient visualizer.',
-      },
-      {
-        name: 'Palette Extractor',
-        description: 'Pull color palettes from any image.',
-      },
-    ],
-  },
-  {
     category: 'Libraries',
     tools: [
       {

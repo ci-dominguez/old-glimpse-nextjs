@@ -6,19 +6,19 @@ export const resourceLinks = [
 ];
 
 export const toolLinks = [
+  // {
+  //   categoryName: 'Essential Tools',
+  //   tools: [
+  //     { name: 'Palette Editor', href: '/palette-editor' },
+  //     { name: 'Gradient Designer', href: '/gradient-designer' },
+  //     {
+  //       name: 'Palette Extractor',
+  //       href: '/image-to-palette',
+  //     },
+  //   ],
+  // },
   {
-    categoryName: 'Essential Tools',
-    tools: [
-      { name: 'Palette Editor', href: '/palette-editor' },
-      { name: 'Gradient Designer', href: '/gradient-designer' },
-      {
-        name: 'Palette Extractor',
-        href: '/image-to-palette',
-      },
-    ],
-  },
-  {
-    categoryName: 'Advanced Tools',
+    categoryName: 'Tools',
     tools: [
       { name: 'Color Systems', href: '/color-system-generator' },
       { name: 'Mood Matcher', href: '/mood-palettes' },
@@ -32,7 +32,7 @@ export const toolLinks = [
       { name: 'Palette Gallery', href: '/palette-gallery' },
       {
         name: 'Gradient Gallery',
-        href: 'gradient-gallery',
+        href: '/gradient-gallery',
       },
       // { name: 'Color Books', href: '/color-books' },
       // { name: 'Color Trends', href: '/trend-archive' },

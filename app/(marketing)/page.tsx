@@ -13,11 +13,6 @@ const categories = [
     icon: <Cpu />,
   },
   {
-    name: 'Realtime Collaboration Suite',
-    category: 'Essential Tools',
-    icon: <Users />,
-  },
-  {
     name: 'Extensive Asset Libraries',
     category: 'Libraries',
     icon: <Library />,
