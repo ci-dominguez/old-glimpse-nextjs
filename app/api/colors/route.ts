@@ -23,31 +23,24 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
+    let colorDetails;
     const { searchParams } = new URL(req.url);
     const ids = searchParams.get('ids');
 
     if (!ids) {
-      return NextResponse.json(
-        { error: 'No color IDs provided' },
-        { status: 400 }
-      );
+      colorDetails = await db.select().from(colors);
+
+      return NextResponse.json(colorDetails);
+    } else {
+      const colorIds = ids.split(',');
+
+      colorDetails = await db
+        .select()
+        .from(colors)
+        .where(inArray(colors.id, colorIds));
+
+      return NextResponse.json(colorDetails);
     }
-
-    const colorIds = ids.split(',');
-
-    const colorDetails = await db
-      .select()
-      .from(colors)
-      .where(inArray(colors.id, colorIds));
-
-    if (colorDetails.length === 0) {
-      return NextResponse.json(
-        { error: 'No colors found for the provided IDs' },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json(colorDetails);
   } catch (error) {
     console.error('Error in /api/colors GET handler:', error);
     return NextResponse.json(
