@@ -9,6 +9,8 @@ const isPublicRoute = createRouteMatcher([
   '/palette-gallery',
   '/gradient-gallery',
   '/color-swatches',
+  '/color-swatches/(.*)',
+  '/color-creator',
   '/suggest',
   '/report',
   '/sign-up(.*)',
