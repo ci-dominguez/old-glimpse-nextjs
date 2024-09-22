@@ -114,7 +114,11 @@ const ColorSwatchesPage = () => {
                 return (
                   <div key={color.id}>
                     <ColorCard color={color} colorSpace={selectedColorSpace} />
-                    <h3>{color.name}</h3>
+                    <h3 className='underline'>
+                      <Link href={`/color-swatches/${color.id}`}>
+                        {color.name}
+                      </Link>
+                    </h3>
                   </div>
                 );
               })}
