@@ -15,7 +15,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import { hexToRgb, rgbToOkhsl } from '@/utils/ops/colorConversionOps';
+import { hexToOkHsl } from '@/utils/ops/colorConversionOps';
 
 const ConvertColorsForm = () => {
   const [loading, setLoading] = useState(false);
@@ -38,13 +38,10 @@ const ConvertColorsForm = () => {
       hexCode = `#${hexCode}`;
     }
 
-    const rgb = hexToRgb(hexCode);
-    const okhsl = rgbToOkhsl(rgb);
-    const okhslString = `okHsl(${Math.round(okhsl.h!)} ${Math.round(
-      okhsl.s * 100
-    )}% ${Math.round(okhsl.l * 100)}%)`;
-
-    console.log('OKHSL:', okhslString);
+    const color = hexToOkHsl(hexCode);
+    const okhslString = `okHsl(${Math.round(color.h || 0)} ${Math.round(
+      color.s * 100
+    )}% ${Math.round(color.l * 100)}%)`;
 
     try {
       const resp = await fetch('/api/colors', {
