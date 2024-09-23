@@ -110,8 +110,8 @@ const ColorSwatchesPage = () => {
             </>
           ) : (
             <>
-              {colors.map((color) => {
-                return (
+              {colors.length > 0 ? (
+                colors.map((color) => (
                   <div key={color.id}>
                     <ColorCard color={color} colorSpace={selectedColorSpace} />
                     <h3 className='underline'>
@@ -120,8 +120,10 @@ const ColorSwatchesPage = () => {
                       </Link>
                     </h3>
                   </div>
-                );
-              })}
+                ))
+              ) : (
+                <p>Waiting for colors.</p>
+              )}
             </>
           )}
         </div>
