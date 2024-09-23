@@ -20,6 +20,13 @@ export const toolLinks = [
   {
     categoryName: 'Tools',
     tools: [
+      { name: 'Convert Color Spaces', href: '/color-creator' },
+      { name: 'Convert Image To Palette', href: '/image-to-palette' },
+    ],
+  },
+  {
+    categoryName: 'Advanced Tools',
+    tools: [
       { name: 'Color Systems', href: '/color-system-generator' },
       { name: 'Mood Matcher', href: '/mood-palettes' },
       // { name: 'Co-Generator', href: '/cogen' },
