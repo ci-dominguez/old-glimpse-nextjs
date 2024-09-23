@@ -76,6 +76,21 @@ export function hexToRgb(hex: string): Rgb {
   return rgb(hex)!;
 }
 
+export function hexToOkHsl(hex: string): Okhsl {
+  const oklchColor = oklch(hex);
+
+  if (!oklchColor) {
+    throw new Error('Invalid hex color');
+  }
+
+  return {
+    mode: 'okhsl',
+    h: oklchColor.h,
+    s: oklchColor.c / (1 - Math.abs(2 * oklchColor.l - 1)),
+    l: oklchColor.l,
+  };
+}
+
 export function rgbToHsl(rgb: Rgb): Hsl {
   return hsl(rgb);
 }
