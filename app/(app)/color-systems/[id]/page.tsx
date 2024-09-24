@@ -1,4 +1,4 @@
-import ColorSystemDisplay from '@/components/ColorSystemDisplay';
+import ColorSystemDisplay from '@/components/displays/ColorSystemDisplay';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 
