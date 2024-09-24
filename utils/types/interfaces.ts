@@ -24,3 +24,9 @@ export interface ColorSystemCard {
   backgroundColor: string;
   isFavorite: boolean;
 }
+
+export interface ColorPaletteCard {
+  id: string;
+  baseColors: string[];
+  backgroundColor: string;
+}

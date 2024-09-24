@@ -8,7 +8,7 @@ export const tools = [
           "Our AI-powered color system generator that creates comprehensive palettes based on your brand/app's essence.",
       },
       {
-        name: 'Mood Matcher',
+        name: 'Mood Matcher - wip',
         description:
           "Feeling blue? Or maybe sunny and bright? Tell us the vibes your're going for and we'll match the perfect palette.",
       },
@@ -35,12 +35,12 @@ export const tools = [
       //   limited: true,
       // },
       {
-        name: 'Palette Gallery',
+        name: 'Palette Gallery - wip',
         description: 'Get inspired by our museum of color palettes.',
         limited: false,
       },
       {
-        name: 'Gradient Gallery',
+        name: 'Gradient Gallery - wip',
         description: 'Find ready-to-use gradients for your next app.',
         limited: false,
       },

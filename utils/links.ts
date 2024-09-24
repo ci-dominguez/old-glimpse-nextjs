@@ -28,7 +28,7 @@ export const toolLinks = [
     categoryName: 'Advanced Tools',
     tools: [
       { name: 'Color Systems', href: '/color-system-generator' },
-      { name: 'Mood Matcher', href: '/mood-palettes' },
+      // { name: 'Mood Matcher', href: '/mood-palettes' },
       // { name: 'Co-Generator', href: '/cogen' },
     ],
   },
@@ -36,11 +36,11 @@ export const toolLinks = [
     categoryName: 'Libraries',
     tools: [
       { name: 'Color Swatches', href: '/color-swatches' },
-      { name: 'Palette Gallery', href: '/palette-gallery' },
-      {
-        name: 'Gradient Gallery',
-        href: '/gradient-gallery',
-      },
+      // { name: 'Palette Gallery', href: '/palettes' },
+      // {
+      //   name: 'Gradient Gallery',
+      //   href: '/gradients',
+      // },
       // { name: 'Color Books', href: '/color-books' },
       // { name: 'Color Trends', href: '/trend-archive' },
       // { name: 'Brand Color Vault', href: '/brand-database' },
