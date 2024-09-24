@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import ColorCardSkeleton from '@/components/skeletons/ColorCardSkeleton';
+import { SignedIn, SignedOut } from '@clerk/nextjs';
 
 const colorSpaces = [
   { value: 'hex', label: 'Hex' },
@@ -61,17 +62,19 @@ const ColorSwatchesPage = () => {
           <p className='font-medium'>
             A library of all public colors made in Glimpse.
           </p>
-          <Button className='p-0 text-md self-start mx-auto'>
-            <Link
-              onClick={() => {
-                setExtended(false);
-              }}
-              href='/sign-up'
-              className='px-4 py-2 w-full'
-            >
-              Sign up for full access
-            </Link>
-          </Button>
+          <SignedOut>
+            <Button className='p-0 text-md self-start mx-auto'>
+              <Link
+                onClick={() => {
+                  setExtended(false);
+                }}
+                href='/sign-up'
+                className='px-4 py-2 w-full'
+              >
+                Sign up for full access
+              </Link>
+            </Button>
+          </SignedOut>
         </div>
       </section>
       <section className='flex flex-col m-2 px-6 py-12 space-y-6 rounded-xl bg-off text-center'>
@@ -110,23 +113,60 @@ const ColorSwatchesPage = () => {
             </>
           ) : (
             <>
-              {colors.length > 0 ? (
-                colors.map((color) => (
-                  <div key={color.id}>
-                    <ColorCard color={color} colorSpace={selectedColorSpace} />
-                    <h3 className='underline'>
-                      <Link href={`/color-swatches/${color.id}`}>
-                        {color.name}
-                      </Link>
-                    </h3>
-                  </div>
-                ))
-              ) : (
-                <p>Waiting for colors.</p>
-              )}
+              <SignedOut>
+                {colors.length > 0 ? (
+                  colors.slice(0, 6).map((color) => (
+                    <div key={color.id}>
+                      <ColorCard
+                        color={color}
+                        colorSpace={selectedColorSpace}
+                      />
+                      <h3 className='underline'>
+                        <Link href={`/color-swatches/${color.id}`}>
+                          {color.name}
+                        </Link>
+                      </h3>
+                    </div>
+                  ))
+                ) : (
+                  <p>Waiting for colors.</p>
+                )}
+              </SignedOut>
+              <SignedIn>
+                {colors.length > 0 ? (
+                  colors.map((color) => (
+                    <div key={color.id}>
+                      <ColorCard
+                        color={color}
+                        colorSpace={selectedColorSpace}
+                      />
+                      <h3 className='underline'>
+                        <Link href={`/color-swatches/${color.id}`}>
+                          {color.name}
+                        </Link>
+                      </h3>
+                    </div>
+                  ))
+                ) : (
+                  <p>Waiting for colors.</p>
+                )}
+              </SignedIn>
             </>
           )}
         </div>
+        <SignedOut>
+          <Button className='p-0 text-md mx-auto'>
+            <Link
+              onClick={() => {
+                setExtended(false);
+              }}
+              href='/sign-up'
+              className='px-4 py-2 w-full'
+            >
+              Get started for free
+            </Link>
+          </Button>
+        </SignedOut>
       </section>
     </main>
   );
