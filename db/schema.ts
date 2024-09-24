@@ -155,3 +155,14 @@ export const contactMsgs = pgTable('contact_msgs', {
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
 });
+
+export const colorPalettes = pgTable('color_palettes', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').references(() => users.id),
+  baseColors: uuid('base_colors').array().notNull(),
+  backgroundColor: uuid('background_color').notNull(),
+  isFavorite: boolean('is_favorite').notNull().default(false),
+  isPrivate: boolean('is_private').notNull().default(false),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
+});
