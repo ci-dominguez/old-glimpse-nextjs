@@ -1,19 +1,19 @@
 'use client';
 import { useEffect, useState } from 'react';
-import ColorCard from './cards/ColorCard';
+import ColorCard from '../cards/ColorCard';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from './ui/select';
+} from '../ui/select';
 import {
   Color,
   ColorSystemCard as ColorSystem,
 } from '@/utils/types/interfaces';
 import { Eye, Heart, PencilIcon, Share2 } from 'lucide-react';
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 import ColorScale from './ColorScale';
 
 interface ColorSystemDisplayProps {
