@@ -14,7 +14,11 @@ interface colorScaleProps {
   colorSpace: ColorSpaceKey;
 }
 
-const ColorScale = ({ baseColor, bgColor, colorSpace }: colorScaleProps) => {
+const ColorScaleDisplay = ({
+  baseColor,
+  bgColor,
+  colorSpace,
+}: colorScaleProps) => {
   const [colorScale, setColorScale] = useState<string[] | null>([]);
   const [colorValues, setColorValues] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
@@ -77,4 +81,4 @@ const ColorScale = ({ baseColor, bgColor, colorSpace }: colorScaleProps) => {
   );
 };
 
-export default ColorScale;
+export default ColorScaleDisplay;
