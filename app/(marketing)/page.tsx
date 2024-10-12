@@ -2,14 +2,14 @@
 import { useNav } from '@/contexts/NavContext';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Cpu, Library, Rocket, Share2, Users } from 'lucide-react';
+import { Cpu, Library, Rocket, Share2 } from 'lucide-react';
 import Blob from '@/components/icons/blob';
 import { tools } from '@/utils/tools';
 
 const categories = [
   {
     name: 'Ai-Powered Generation',
-    category: 'Glimpse AI',
+    category: 'AI Tools',
     icon: <Cpu />,
   },
   {
@@ -17,11 +17,6 @@ const categories = [
     category: 'Libraries',
     icon: <Library />,
   },
-  // {
-  //   name: 'Accessibility Simulation Suite',
-  //   category: 'Accessibility Suite',
-  //   icon: <Accessibility />,
-  // },
   {
     name: 'Export & Integration Options',
     category: 'Exports & Integrations',
@@ -107,17 +102,6 @@ export default function Home() {
                       </div>
                     );
                   })}
-                  <Button className='p-0 text-md w-full'>
-                    <Link
-                      onClick={() => {
-                        setExtended(false);
-                      }}
-                      href='/features'
-                      className='py-2 w-full'
-                    >
-                      Learn more
-                    </Link>
-                  </Button>
                 </div>
               </div>
             );
