@@ -2,6 +2,8 @@ import { getUserColorSystems } from '@/utils/apiUtils/colorSystemUtils';
 import { authenticateUser } from '@/utils/apiUtils/authUtils';
 import ColorSystemCard from '@/components/cards/ColorSystemCard';
 import { ColorSystemCard as SystemCardType } from '@/utils/types/interfaces';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export default async function ColorSystemsPage() {
   const user = await authenticateUser();
@@ -20,6 +22,11 @@ export default async function ColorSystemsPage() {
       </section>
 
       <section className='flex flex-col m-2 px-6 py-12 space-y-6 rounded-xl bg-off text-center'>
+        <Button className='p-0 mb-4 text-md' variant='default'>
+          <Link href='/color-system-generator' className='px-4 py-2 w-full'>
+            Create a new color system
+          </Link>
+        </Button>
         {systems.map((system) => (
           <ColorSystemCard key={system.id} colorSystem={system} />
         ))}
