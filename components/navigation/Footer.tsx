@@ -28,7 +28,7 @@ const Footer = () => {
                 return (
                   <li
                     key={tool.name}
-                    className='font-medium text-on ml-2 self-start'
+                    className='font-medium text-on self-start'
                   >
                     <Link
                       onClick={() => {
@@ -49,10 +49,7 @@ const Footer = () => {
           <li>Resources</li>
           {resourceLinks.map((link) => {
             return (
-              <li
-                key={link.name}
-                className='font-medium text-on ml-2 self-start'
-              >
+              <li key={link.name} className='font-medium text-on self-start'>
                 <Link
                   onClick={() => {
                     setExtended(false);

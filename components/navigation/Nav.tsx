@@ -60,7 +60,7 @@ const Nav = () => {
       animate={{ y: isVisible ? 0 : '-200%' }}
       transition={{ duration: 0.3, delay: 0.25 }}
       className={`fixed py-3 px-4 rounded-xl bg-white border-[1px] border-muted-background flex flex-col z-50 ${
-        extended ? 'inset-6' : 'top-6 inset-x-6'
+        extended ? 'top-6 inset-x-6' : 'top-6 inset-x-6'
       }`}
     >
       <div
