@@ -7,7 +7,7 @@ export const resourceLinks = [
 export const toolLinks = [
   {
     categoryName: 'Tools',
-    tools: [{ name: 'Color Systems', href: '/color-system-generator' }],
+    tools: [{ name: 'Color Systems', href: '/color-systems' }],
   },
   {
     categoryName: 'Libraries',
