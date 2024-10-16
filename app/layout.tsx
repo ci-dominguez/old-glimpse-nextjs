@@ -5,6 +5,7 @@ import './globals.css';
 import Nav from '@/components/navigation/Nav';
 import { NavProvider } from '@/contexts/NavContext';
 import Footer from '@/components/navigation/Footer';
+import { Toaster } from '@/components/ui/toaster';
 
 const arimo = Arimo({
   weight: ['400', '500', '600', '700'],
@@ -32,6 +33,7 @@ export default function RootLayout({
           <NavProvider>
             <Nav />
             {children}
+            <Toaster />
             <Footer />
           </NavProvider>
         </body>
