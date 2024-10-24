@@ -59,9 +59,12 @@ const Nav = () => {
       initial={{ y: 0 }}
       animate={{ y: isVisible ? 0 : '-200%' }}
       transition={{ duration: 0.3, delay: 0.25 }}
-      className={`fixed py-3 px-4 rounded-xl bg-white border-[1px] border-muted-background flex flex-col z-50 ${
-        extended ? 'top-6 inset-x-6' : 'top-6 inset-x-6'
-      }`}
+      className={`4xl:w-1/2 4xl:mx-auto fixed py-3 px-4 rounded-xl bg-white flex flex-col z-50 shadow-lg shadow-black/[0.07]
+ ${
+   extended
+     ? 'top-6 lg:top-10 inset-x-6 lg:inset-x-10 3xl:inset-x-80'
+     : 'top-6 lg:top-10 inset-x-6 lg:inset-x-10 3xl:inset-x-80'
+ }`}
     >
       <div
         className={`flex justify-between items-center ${
@@ -80,13 +83,137 @@ const Nav = () => {
             <span>Glimpse</span>
           </Link>
         </motion.div>
-        <button onClick={() => setExtended(!extended)}>
+
+        <SignedOut>
+          <ul className='hidden lg:grid lg:grid-cols-3 items-center font-semibold'>
+            {links.map((link) => {
+              return (
+                <li key={link.name} className='w-full'>
+                  <Button
+                    variant={path === link.href ? 'outline' : 'ghost'}
+                    className='p-0 text-md w-full'
+                  >
+                    <Link
+                      onClick={() => {
+                        setExtended(false);
+                      }}
+                      href={link.href}
+                      className='px-4 py-2 w-full'
+                    >
+                      {link.name}
+                    </Link>
+                  </Button>
+                </li>
+              );
+            })}
+          </ul>
+          <div className='hidden lg:flex gap-4'>
+            <Button variant='secondary' className='p-0 text-md'>
+              <Link
+                onClick={() => {
+                  setExtended(false);
+                }}
+                href='/sign-in'
+                className='px-4 py-2 w-full'
+              >
+                Login
+              </Link>
+            </Button>
+            <Button className='p-0 text-md'>
+              <Link
+                onClick={() => {
+                  setExtended(false);
+                }}
+                href='/sign-up'
+                className='px-4 py-2 w-full'
+              >
+                Sign up
+              </Link>
+            </Button>
+          </div>
+        </SignedOut>
+        <SignedIn>
+          <ul className='flex items-center font-semibold'>
+            <li className='w-full hidden lg:block'>
+              <Button
+                variant={path === 'color-systems' ? 'outline' : 'ghost'}
+                className='p-0 text-md w-full'
+              >
+                <Link
+                  onClick={() => {
+                    setExtended(false);
+                  }}
+                  href='/color-systems'
+                  className='px-4 py-2 w-full'
+                >
+                  Color Systems
+                </Link>
+              </Button>
+            </li>
+            <li className='w-full hidden lg:block'>
+              <Button
+                variant={path === 'color-swatches' ? 'outline' : 'ghost'}
+                className='p-0 text-md w-full'
+              >
+                <Link
+                  onClick={() => {
+                    setExtended(false);
+                  }}
+                  href='/color-swatches'
+                  className='px-4 py-2 w-full'
+                >
+                  Swatches
+                </Link>
+              </Button>
+            </li>
+            <li className='w-full hidden lg:block'>
+              <Button
+                variant={path === 'contact' ? 'outline' : 'ghost'}
+                className='p-0 text-md w-full'
+              >
+                <Link
+                  onClick={() => {
+                    setExtended(false);
+                  }}
+                  href='/contact'
+                  className='px-4 py-2 w-full'
+                >
+                  Contact
+                </Link>
+              </Button>
+            </li>
+          </ul>
+          {user && (
+            <Link
+              onClick={() => {
+                setExtended(false);
+              }}
+              href='profile'
+              className='hidden justify-between items-center lg:flex'
+            >
+              <div className='flex items-center space-x-2'>
+                <span className='text-md font-medium'>{user?.firstName}</span>
+                <Image
+                  src={user!.imageUrl}
+                  alt={`${user!.firstName}'s profile`}
+                  width='35'
+                  height='35'
+                  className='rounded-full'
+                />
+              </div>
+            </Link>
+          )}
+        </SignedIn>
+        <button
+          onClick={() => setExtended(!extended)}
+          className='block lg:hidden'
+        >
           {extended ? <X className='size-6' /> : <Menu className='size-6' />}
         </button>
       </div>
       {extended && (
-        <div className='flex-grow py-8 overflow-y-auto max-h-[calc(100vh-6rem)]'>
-          <div className='space-y-8'>
+        <div className='flex-grow py-8 overflow-y-auto max-h-[calc(100vh/2)] lg:hidden'>
+          <div className='space-y-8 text-center'>
             {toolLinks.map((cat) => {
               return (
                 <div className='space-y-3' key={cat.categoryName}>
@@ -97,7 +224,7 @@ const Nav = () => {
                         <li key={tool.name} className='w-full'>
                           <Button
                             variant={path === tool.href ? 'outline' : 'ghost'}
-                            className='p-0 text-md w-full text-left'
+                            className='p-0 text-md w-full'
                           >
                             <Link
                               onClick={() => {
@@ -121,7 +248,7 @@ const Nav = () => {
               <ul className='grid grid-cols-1 gap-2 items-center font-semibold'>
                 {links.map((link) => {
                   return (
-                    <li key={link.name} className='w-full '>
+                    <li key={link.name} className='w-full'>
                       <Button
                         variant={path === link.href ? 'outline' : 'ghost'}
                         className='p-0 text-md w-full'
@@ -131,7 +258,7 @@ const Nav = () => {
                             setExtended(false);
                           }}
                           href={link.href}
-                          className='px-4 py-2 w-full text-left'
+                          className='px-4 py-2 w-full'
                         >
                           {link.name}
                         </Link>
@@ -145,7 +272,7 @@ const Nav = () => {
         </div>
       )}
       {extended && (
-        <div className='flex flex-col space-y-4 pt-3 border-t-[1px] border-muted-background'>
+        <div className='flex flex-col space-y-4 pt-3 border-t-[1px] border-muted-background lg:hidden'>
           <SignedOut>
             <Button variant='secondary' className='p-0 text-md'>
               <Link
@@ -166,7 +293,7 @@ const Nav = () => {
                 href='/sign-up'
                 className='px-4 py-2 w-full'
               >
-                Join
+                Sign up
               </Link>
             </Button>
           </SignedOut>
