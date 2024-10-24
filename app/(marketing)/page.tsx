@@ -65,7 +65,7 @@ export default function Home() {
         <h3 className='text-xl font-bold text-on lg:text-2xl'>
           Everything you need bundled together
         </h3>
-        <ul className='grid grid-cols-1 sm:grid-cols-2 text-left font-bold text-lg lg:text-xl ml-4 gap-4 lg:gap-8 lg:flex lg:flex-wrap lg:mx-auto 2xl:w-1/2 2xl:justify-center'>
+        <ul className='grid grid-cols-1 sm:grid-cols-2 text-left font-bold text-lg lg:text-xl ml-4 gap-4 lg:gap-8 lg:flex lg:flex-wrap lg:mx-auto lg:justify-center 2xl:w-1/2'>
           {categories.map((cat) => {
             return (
               <li key={cat.name} className='flex space-x-2 items-center'>
