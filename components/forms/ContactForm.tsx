@@ -53,11 +53,15 @@ const ContactForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className='flex flex-col bg-white rounded-lg p-5 space-y-4'
+      className='flex flex-col bg-white rounded-lg p-5 space-y-4 shadow-lg shadow-black/[0.07] lg:p-20 2xl:px-40
+'
     >
       <div className='grid grid-cols-2 w-full gap-3'>
         <div className='w-full space-y-2'>
-          <label htmlFor='first_name' className='text-sm font-bold'>
+          <label
+            htmlFor='first_name'
+            className='text-sm lg:text-base font-bold'
+          >
             First Name*
           </label>
           <input
@@ -74,7 +78,7 @@ const ContactForm = () => {
         </div>
 
         <div className='w-full space-y-2'>
-          <label htmlFor='last_name' className='text-sm font-bold'>
+          <label htmlFor='last_name' className='text-sm lg:text-base font-bold'>
             Last Name*
           </label>
           <input
@@ -92,7 +96,7 @@ const ContactForm = () => {
       </div>
 
       <div className='w-full space-y-2'>
-        <label htmlFor='email' className='text-sm font-bold'>
+        <label htmlFor='email' className='text-sm lg:text-base font-bold'>
           Email*
         </label>
         <input
@@ -108,12 +112,12 @@ const ContactForm = () => {
         )}
       </div>
 
-      <p className='text-sm font-bold'>
+      <p className='text-sm lg:text-base font-bold'>
         Tell us more about what led you to Glimpse
       </p>
 
       <div className='space-y-2'>
-        <label htmlFor='message' className='text-sm font-bold'>
+        <label htmlFor='message' className='text-sm lg:text-base font-bold'>
           Message*
         </label>
         <textarea
@@ -129,7 +133,9 @@ const ContactForm = () => {
         )}
       </div>
 
-      <Button>{isSubmitting ? 'Submitting...' : 'Submit'}</Button>
+      <Button className='lg:text-base'>
+        {isSubmitting ? 'Submitting...' : 'Submit'}
+      </Button>
 
       {submitError && (
         <p className='text-red-500 text-sm mt-1'>{submitError}</p>
