@@ -18,6 +18,15 @@ const config = {
       },
     },
     extend: {
+      screens: {
+        sm: '640px',
+        md: '768px',
+        lg: '1024px',
+        xl: '1280px',
+        '2xl': '1536px',
+        '3xl': '1920px',
+        '4xl': '2560px',
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -76,22 +85,8 @@ const config = {
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
       backgroundImage: {
-        'soft-peach-to-pale-lemon':
-          'linear-gradient(to right bottom, rgb(255, 213, 179) 10%, rgb(255, 245, 157) 80%)',
-        'light-apricot-to-cream':
-          'linear-gradient(to right bottom, rgb(255, 223, 166) 10%, rgb(255, 236, 204) 80%)',
-        'lavender-mist-to-blush':
-          'linear-gradient(to right bottom, rgb(214, 194, 255) 10%, rgb(255, 194, 214) 80%)',
-        'cotton-candy-to-pale-lemon':
-          'linear-gradient(to right bottom, rgb(255, 182, 255) 10%, rgb(255, 245, 157) 80%)',
-        'sky-blue-to-light-apricot':
-          'linear-gradient(to right bottom, rgb(179, 236, 255) 10%, rgb(255, 223, 166) 80%)',
-        'cotton-candy-to-sky-blue':
-          'linear-gradient(to right bottom, rgb(255, 182, 255) 10%, rgb(179, 236, 255) 80%)',
-        'mint-to-light-apricot':
-          'linear-gradient(to right bottom, rgb(213, 255, 159) 10%, rgb(255, 223, 166) 80%)',
-        'sky-blue-to-soft-peach':
-          'linear-gradient(to right bottom, rgb(179, 236, 255) 10%, rgb(255, 213, 179) 80%)',
+        periwinkle:
+          'linear-gradient(to left top, rgb(230, 220, 255) 10%, rgb(255, 240, 245) 90%)',
       },
     },
   },
