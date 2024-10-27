@@ -54,9 +54,10 @@ const ColorSwatchesPage = () => {
 
     fetchColors();
   }, []);
+
   return (
     <main className='flex flex-col min-h-screen'>
-      <section className='flex flex-col m-2 px-6 pt-40 pb-12 space-y-24 rounded-xl bg-sky-blue-to-soft-peach text-center'>
+      <section className='flex flex-col m-2 lg:m-4 px-6 lg:px-16 xl:px-32 3xl:px-80 4xl:px-[39rem] pt-40 pb-12 lg:pb-20 space-y-24 text-center'>
         <div className='flex flex-col space-y-6'>
           <h1 className='text-4xl font-bold'>Color Swatches</h1>
           <p className='font-medium'>
@@ -77,32 +78,60 @@ const ColorSwatchesPage = () => {
           </SignedOut>
         </div>
       </section>
-      <section className='flex flex-col m-2 px-6 py-12 space-y-6 rounded-xl bg-off text-center'>
-        <div className='flex items-center space-x-2 ml-auto mx-auto'>
-          <label htmlFor='colorSpace' className='text-md font-medium'>
-            Select Color Space
-          </label>
-          <Select
-            onValueChange={(value) =>
-              setSelectedColorSpace(value as ColorSpaceKey)
-            }
-            defaultValue={selectedColorSpace}
-          >
-            <SelectTrigger className='w-[75px]'>
-              <SelectValue placeholder='Select a color space' />
-            </SelectTrigger>
-            <SelectContent>
-              {colorSpaces.map((space) => (
-                <SelectItem key={space.value} value={space.value}>
-                  {space.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+
+      <section className='flex flex-col m-2 lg:m-4 px-6 lg:px-16 xl:px-32 3xl:px-80 4xl:px-[39rem] py-12 lg:py-20 space-y-6 rounded-xl bg-off'>
+        <div className='flex flex-col space-y-2 items-center'>
+          <div className='flex items-center space-x-2'>
+            <label htmlFor='colorSpace' className='text-md font-medium'>
+              Color Space
+            </label>
+            <Select
+              onValueChange={(value) =>
+                setSelectedColorSpace(value as ColorSpaceKey)
+              }
+              defaultValue={selectedColorSpace}
+            >
+              <SelectTrigger className='w-[75px]'>
+                <SelectValue placeholder='Color Space' />
+              </SelectTrigger>
+              <SelectContent>
+                {colorSpaces.map((space) => (
+                  <SelectItem key={space.value} value={space.value}>
+                    {space.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* <div className='flex items-center space-x-2'>
+            <label htmlFor='colorSpace' className='text-md font-medium'>
+              Similar Colors to
+            </label>
+            <Select
+              onValueChange={(value) =>
+                setSelectedColorSpace(value as ColorSpaceKey)
+              }
+              defaultValue={selectedColorSpace}
+            >
+              <SelectTrigger className='w-[75px]'>
+                <SelectValue placeholder='Select a color space' />
+              </SelectTrigger>
+              <SelectContent>
+                {colorSpaces.map((space) => (
+                  <SelectItem key={space.value} value={space.value}>
+                    {space.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div> */}
         </div>
-        <div className='grid grid-cols-2 gap-x-6 gap-y-12'>
+
+        <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 3xl:grid-cols-7 4xl:grid-cols-8 gap-x-6 gap-y-12'>
           {isLoading ? (
             <>
+              <ColorCardSkeleton />
               <ColorCardSkeleton />
               <ColorCardSkeleton />
               <ColorCardSkeleton />
@@ -115,7 +144,7 @@ const ColorSwatchesPage = () => {
             <>
               <SignedOut>
                 {colors.length > 0 ? (
-                  colors.slice(0, 6).map((color) => (
+                  colors.slice(0, 8).map((color) => (
                     <div key={color.id}>
                       <ColorCard
                         color={color}
@@ -140,7 +169,7 @@ const ColorSwatchesPage = () => {
                         color={color}
                         colorSpace={selectedColorSpace}
                       />
-                      <h3 className='underline'>
+                      <h3 className='underline text-center'>
                         <Link href={`/color-swatches/${color.id}`}>
                           {color.name}
                         </Link>
