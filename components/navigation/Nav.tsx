@@ -188,7 +188,7 @@ const Nav = () => {
               onClick={() => {
                 setExtended(false);
               }}
-              href='profile'
+              href='/profile'
               className='hidden justify-between items-center lg:flex'
             >
               <div className='flex items-center space-x-2'>
@@ -303,7 +303,7 @@ const Nav = () => {
                 onClick={() => {
                   setExtended(false);
                 }}
-                href='profile'
+                href='/profile'
                 className='flex justify-between items-center'
               >
                 <div className='flex items-center space-x-2'>
