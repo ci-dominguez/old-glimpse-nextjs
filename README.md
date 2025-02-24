@@ -1,6 +1,6 @@
 # 🎨 Glimpse: AI-Powered Color System Generator SAAS
 
-> **Note**: The UI is currently being overhauled.
+> **Note**: This repo is no longer under development. Glimpse has moved to a faster and lighter stack currently under dev. Updates once v1 is launched! Thank you :)
 
 ## 🛠️ Built With
 
